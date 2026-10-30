@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>COSMOX - Space Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            background: #020617;
+            min-height: 100vh;
+        }
+
+        /* SPACE BACKGROUND */
+
+        .space {
+            min-height: 100vh;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    rgba(2, 6, 23, 0.55),
+                    rgba(2, 6, 23, 0.92)
+                ),
+
+                url("https://images-assets.nasa.gov/image/PIA12348/PIA12348~orig.jpg");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* STARS */
+
+        .stars {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+
+            background-image:
+
+                radial-gradient(
+                    2px 2px at 10% 20%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    1px 1px at 25% 70%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    2px 2px at 45% 30%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    1px 1px at 65% 80%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    2px 2px at 80% 25%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    1px 1px at 92% 60%,
+                    white,
+                    transparent
+                );
+
+            animation: starsMove 8s infinite alternate;
+        }
+
+        @keyframes starsMove {
+
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.08);
+            }
+
+        }
+
+        /* HEADER */
+
+        .header {
+            position: relative;
+            z-index: 5;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 15px 20px;
+
+            border:
+                1px solid
+                rgba(56, 189, 248, 0.4);
+
+            border-radius: 18px;
+
+            background:
+                rgba(15, 23, 42, 0.75);
+
+            backdrop-filter: blur(15px);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: #38bdf8;
+
+            text-shadow:
+                0 0 10px #38bdf8,
+                0 0 25px #2563eb;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .profile-btn {
+            padding: 9px 18px;
+
+            border:
+                1px solid #38bdf8;
+
+            border-radius: 20px;
+
+            background:
+                rgba(56, 189, 248, 0.1);
+
+            color: white;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .profile-btn:hover {
+            background: #0284c7;
+
+            box-shadow:
+                0 0 15px #38bdf8;
+        }
+
+        /* NAVIGATION */
+
+        .nav {
+            position: relative;
+            z-index: 5;
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-top: 18px;
+            padding: 12px;
+
+            border:
+                1px solid
+                rgba(56, 189, 248, 0.25);
+
+            border-radius: 15px;
+
+            background:
+                rgba(15, 23, 42, 0.70);
+
+            backdrop-filter: blur(12px);
+        }
+
+        .nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+
+            padding: 8px 12px;
+
+            border-radius: 10px;
+
+            transition: 0.3s;
+
+            font-size: 13px;
+        }
+
+        .nav a:hover {
+            color: white;
+            background: rgba(56, 189, 248, 0.15);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+
+        /* WELCOME */
+
+        .welcome {
+            position: relative;
+            z-index: 2;
+
+            margin-top: 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .welcome h1 {
+            font-size: 38px;
+
+            text-shadow:
+                0 0 10px #38bdf8,
+                0 0 30px #2563eb;
+        }
+
+        .welcome p {
+            margin-top: 8px;
+            color: #94a3b8;
+        }
+
+        /* RANK */
+
+        .rank-card {
+            min-width: 230px;
+            padding: 18px;
+
+            border:
+                1px solid #334155;
+
+            border-radius: 18px;
+
+            background:
+                rgba(15, 23, 42, 0.75);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .rank-title {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .rank {
+            color: #38bdf8;
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+        .xp {
+            margin-top: 12px;
+        }
+
+        .xp-bar {
+            height: 7px;
+
+            background: #1e293b;
+
+            border-radius: 20px;
+
+            margin-top: 7px;
+
+            overflow: hidden;
+        }
+
+        .xp-progress {
+            width: 68%;
+            height: 100%;
+
+            background: #38bdf8;
+
+            box-shadow:
+                0 0 12px #38bdf8;
+        }
+
+        /* SECTION */
+
+        .section-title {
+            position: relative;
+            z-index: 2;
+
+            margin-top: 35px;
+            margin-bottom: 18px;
+
+            font-size: 22px;
+        }
+
+        /* CARDS */
+
+        .cards {
+            position: relative;
+            z-index: 2;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(210px, 1fr));
+
+            gap: 18px;
+        }
+
+        .card {
+            min-height: 175px;
+
+            padding: 22px;
+
+            border:
+                1px solid #334155;
+
+            border-radius: 20px;
+
+            background:
+                rgba(15, 23, 42, 0.68);
+
+            backdrop-filter: blur(12px);
+
+            cursor: pointer;
+
+            transition: 0.35s;
+        }
+
+        .card:hover {
+            transform:
+                translateY(-8px)
+                scale(1.02);
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 25px
+                rgba(56, 189, 248, 0.2);
+        }
+
+        .card-image {
+            width: 65px;
+            height: 65px;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(56, 189, 248, 0.4);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .card h3 {
+            margin-top: 12px;
+            font-size: 19px;
+        }
+
+        .card p {
+            margin-top: 7px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+        /* STATS */
+
+        .stats {
+            position: relative;
+            z-index: 2;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+        .stat {
+            padding: 18px;
+
+            text-align: center;
+
+            border:
+                1px solid #334155;
+
+            border-radius: 16px;
+
+            background:
+                rgba(15, 23, 42, 0.68);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .stat h2 {
+            color: #38bdf8;
+            font-size: 28px;
+        }
+
+        .stat p {
+            margin-top: 5px;
+            color: #94a3b8;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 700px) {
+
+            .space {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 12px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .welcome {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .welcome h1 {
+                font-size: 30px;
+            }
+
+            .rank-card {
+                width: 100%;
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .nav {
+                justify-content: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="space">
+
+    <div class="stars"></div>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+            COSMOX 🚀
+        </div>
+
+
+        <div class="header-right">
+
+            <div
+                class="notification"
+                onclick="showNotification()"
+            >
+                🔔
+            </div>
+
+
+            <button
+                class="profile-btn"
+                onclick="openProfile()"
+            >
+                🧑‍🚀 Profile
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="nav">
+
+        <a href="solar.html">☀️ Solar</a>
+
+        <a href="planets.html">🪐 Planets</a>
+
+        <a href="moon.html">🌙 Moon</a>
+
+        <a href="missions.html">🚀 Missions</a>
+
+        <a href="astronauts.html">👨‍🚀 Astronauts</a>
+
+        <a href="spacecraft.html">🛰️ Spacecraft</a>
+
+        <a href="gallery.html">🖼️ Gallery</a>
+
+        <a href="quiz.html">🧠 Quiz</a>
+
+        <a href="favorites.html">❤️ Favorites</a>
+
+        <a href="space-news.html">📰 News</a>
+
+        <a href="space-weather.html">☀️ Weather</a>
+
+        <a href="space-timeline.html">⏳ Timeline</a>
+
+        <a href="space-calculator.html">🧮 Calculator</a>
+
+        <a href="space-map.html">🗺️ Space Map</a>
+
+        <a href="space-games.html">🎮 Games</a>
+
+        <a href="contact.html">📩 Contact</a>
+
+    </nav>
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <div>
+
+            <h1>
+                Welcome, Explorer 👋
+            </h1>
+
+            <p>
+                Your journey through the universe starts here.
+            </p>
+
+        </div>
+
+
+        <div class="rank-card">
+
+            <div class="rank-title">
+                CURRENT RANK
+            </div>
+
+            <div class="rank">
+                🚀 Space Explorer
+            </div>
+
+
+            <div class="xp">
+
+                <small>
+                    680 / 1000 XP
+                </small>
+
+
+                <div class="xp-bar">
+
+                    <div
+                        class="xp-progress"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- UNIVERSE -->
+
+    <div class="section-title">
+        🌌 Explore Universe
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- SOLAR SYSTEM -->
+
+        <div
+            class="card"
+            onclick="openPage('solar.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA03149/PIA03149~orig.jpg"
+                    alt="Solar System"
+                >
+
+            </div>
+
+
+            <h3>
+                Solar System
+            </h3>
+
+
+            <p>
+                Explore planets and their orbits.
+            </p>
+
+        </div>
+
+
+        <!-- GALAXY -->
+
+        <div
+            class="card"
+            onclick="openPage('galaxy.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA04921/PIA04921~orig.jpg"
+                    alt="Galaxy"
+                >
+
+            </div>
+
+
+            <h3>
+                Galaxy Explorer
+            </h3>
+
+
+            <p>
+                Discover galaxies, stars and nebulae.
+            </p>
+
+        </div>
+
+
+        <!-- MOON -->
+
+        <div
+            class="card"
+            onclick="openPage('moon.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/iss065e011352/iss065e011352~orig.jpg"
+                    alt="Moon"
+                >
+
+            </div>
+
+
+            <h3>
+                Moon Explorer
+            </h3>
+
+
+            <p>
+                Explore the Moon and its phases.
+            </p>
+
+        </div>
+
+
+        <!-- BLACK HOLE -->
+
+        <div
+            class="card"
+            onclick="openPage('blackhole.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001949/GSFC_20171208_Archive_e001949~orig.jpg"
+                    alt="Black Hole"
+                >
+
+            </div>
+
+
+            <h3>
+                Black Hole
+            </h3>
+
+
+            <p>
+                Enter the mysterious cosmic zone.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- MISSIONS -->
+
+    <div class="section-title">
+        🚀 Missions & Activities
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- SPACE MISSIONS -->
+
+        <div
+            class="card"
+            onclick="openPage('missions.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA21445/PIA21445~orig.jpg"
+                    alt="Mission"
+                >
+
+            </div>
+
+
+            <h3>
+                Space Missions
+            </h3>
+
+
+            <p>
+                Discover historic space missions.
+            </p>
+
+        </div>
+
+
+        <!-- ASTRONAUT -->
+
+        <div
+            class="card"
+            onclick="openPage('astronauts.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~orig.jpg"
+                    alt="Astronaut"
+                >
+
+            </div>
+
+
+            <h3>
+                Astronaut Zone
+            </h3>
+
+
+            <p>
+                Meet famous space explorers.
+            </p>
+
+        </div>
+
+
+        <!-- SPACECRAFT -->
+
+        <div
+            class="card"
+            onclick="openPage('spacecraft.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA00452/PIA00452~orig.jpg"
+                    alt="Spacecraft"
+                >
+
+            </div>
+
+
+            <h3>
+                Spacecraft Garage
+            </h3>
+
+
+            <p>
+                Explore rockets, rovers and satellites.
+            </p>
+
+        </div>
+
+
+        <!-- FUTURE SPACE -->
+
+        <div
+            class="card"
+            onclick="openPage('future.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/art002e009289/art002e009289~orig.jpg"
+                    alt="Future Space"
+                >
+
+            </div>
+
+
+            <h3>
+                Future Space
+            </h3>
+
+
+            <p>
+                Discover the future of space travel.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIVITIES -->
+
+    <div class="section-title">
+        🧠 Your Activities
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- QUIZ -->
+
+        <div
+            class="card"
+            onclick="openPage('quiz.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA18033/PIA18033~orig.jpg"
+                    alt="Quiz"
+                >
+
+            </div>
+
+
+            <h3>
+                Space Quiz
+            </h3>
+
+
+            <p>
+                Test your cosmic knowledge.
+            </p>
+
+        </div>
+
+
+        <!-- GAMES -->
+
+        <div
+            class="card"
+            onclick="openPage('games.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA12348/PIA12348~orig.jpg"
+                    alt="Games"
+                >
+
+            </div>
+
+
+            <h3>
+                Space Games
+            </h3>
+
+
+            <p>
+                Play and earn XP.
+            </p>
+
+        </div>
+
+
+        <!-- LEADERBOARD -->
+
+        <div
+            class="card"
+            onclick="openPage('leaderboard.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA01322/PIA01322~orig.jpg"
+                    alt="Leaderboard"
+                >
+
+            </div>
+
+
+            <h3>
+                Leaderboard
+            </h3>
+
+
+            <p>
+                Check top space explorers.
+            </p>
+
+        </div>
+
+
+        <!-- ACHIEVEMENTS -->
+
+        <div
+            class="card"
+            onclick="openPage('achievements.html')"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA18033/PIA18033~orig.jpg"
+                    alt="Achievements"
+                >
+
+            </div>
+
+
+            <h3>
+                Achievements
+            </h3>
+
+
+            <p>
+                Unlock special cosmic badges.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="section-title">
+        📊 Explorer Statistics
+    </div>
+
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <h2>
+                08
+            </h2>
+
+            <p>
+                Planets
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>
+                12
+            </h2>
+
+            <p>
+                Missions
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>
+                850
+            </h2>
+
+            <p>
+                Quiz XP
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>
+                04
+            </h2>
+
+            <p>
+                Badges
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    /* OPEN PAGES */
+
+    function openPage(page) {
+
+        window.location.href = page;
+
+    }
+
+
+    /* PROFILE */
+
+    function openProfile() {
+
+        window.location.href =
+            "profile.html";
+
+    }
+
+
+    /* NOTIFICATION */
+
+    function showNotification() {
+
+        alert(
+            "🚀 New Mission Available!\n\n" +
+            "Explore Mars and earn 100 XP."
+        );
+
+    }
+
+</script>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>ss

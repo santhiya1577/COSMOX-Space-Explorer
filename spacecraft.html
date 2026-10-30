@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COSMOX - Spacecraft Garage</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#02030b;
+    color:white;
+    font-family:Arial, sans-serif;
+    overflow-x:hidden;
+}
+
+/* STARS */
+#stars{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.2}
+    to{
+        opacity:1;
+        transform:scale(1.6);
+    }
+}
+
+/* HEADER */
+header{
+    height:75px;
+    padding:0 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(3,5,18,.8);
+    border-bottom:1px solid rgba(255,255,255,.15);
+    position:sticky;
+    top:0;
+    z-index:10;
+    backdrop-filter:blur(12px);
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:4px;
+    text-shadow:0 0 20px #795cff;
+}
+
+.back{
+    color:white;
+    text-decoration:none;
+    padding:11px 20px;
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:25px;
+    transition:.3s;
+}
+
+.back:hover{
+    box-shadow:0 0 20px #6c5cff;
+    transform:translateY(-2px);
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:60px 20px 35px;
+}
+
+.hero h1{
+    font-size:clamp(40px,7vw,70px);
+    letter-spacing:7px;
+    text-shadow:0 0 30px #775cff;
+}
+
+.hero p{
+    color:#aeb1ce;
+    margin-top:15px;
+    font-size:17px;
+}
+
+/* SPACE STAGE */
+.stage{
+    width:92%;
+    max-width:1100px;
+    height:470px;
+    margin:20px auto 55px;
+    position:relative;
+    overflow:hidden;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,.14);
+    background:
+        radial-gradient(circle at 50% 50%,
+        rgba(90,60,190,.2),
+        transparent 48%);
+    box-shadow:
+        0 0 60px rgba(90,70,220,.18),
+        inset 0 0 60px rgba(255,255,255,.03);
+}
+
+/* PLANET */
+.planet{
+    position:absolute;
+    right:8%;
+    top:130px;
+    width:170px;
+    height:170px;
+    border-radius:50%;
+
+    background:
+        radial-gradient(circle at 30% 28%,#ddd 0 7%,transparent 8%),
+        radial-gradient(circle at 60% 65%,#7d8b9d 0 13%,transparent 14%),
+        radial-gradient(circle at 40% 55%,#aab5c5 0 10%,transparent 11%),
+        linear-gradient(145deg,#63748a,#151d2e 75%);
+
+    box-shadow:
+        0 0 30px #9aaed0,
+        0 0 80px rgba(120,150,200,.35);
+
+    animation:planet 6s ease-in-out infinite;
+}
+
+@keyframes planet{
+    50%{
+        transform:translateY(-15px) rotate(8deg);
+    }
+}
+
+/* PLANET RING */
+.planet-ring{
+    position:absolute;
+    width:270px;
+    height:75px;
+    right:3%;
+    top:180px;
+    border:3px solid rgba(190,210,240,.45);
+    border-radius:50%;
+    transform:rotate(-15deg);
+    animation:ring 8s linear infinite;
+}
+
+@keyframes ring{
+    to{
+        transform:rotate(-15deg) rotateY(360deg);
+    }
+}
+
+/* ROCKET */
+.rocket{
+    position:absolute;
+    left:20%;
+    top:145px;
+    width:230px;
+    height:90px;
+    animation:rocketMove 6s ease-in-out infinite;
+}
+
+@keyframes rocketMove{
+    0%,100%{
+        transform:translate(0,0) rotate(-4deg);
+    }
+
+    50%{
+        transform:translate(100px,-45px) rotate(5deg);
+    }
+}
+
+/* ROCKET BODY */
+.rocket-body{
+    position:absolute;
+    left:40px;
+    top:20px;
+    width:135px;
+    height:50px;
+    border-radius:50% 45% 45% 50%;
+    background:linear-gradient(
+        180deg,
+        #ffffff,
+        #aeb8c8
+    );
+    border:3px solid #e4edf7;
+    box-shadow:0 0 25px rgba(160,210,255,.45);
+}
+
+/* NOSE */
+.nose{
+    position:absolute;
+    right:0;
+    top:20px;
+    width:0;
+    height:0;
+    border-top:25px solid transparent;
+    border-bottom:25px solid transparent;
+    border-right:45px solid #dce5ef;
+    transform:rotate(0deg);
+}
+
+/* WINDOW */
+.window{
+    position:absolute;
+    left:78px;
+    top:29px;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 35% 30%,#9eeaff,#123a70);
+    border:4px solid #dce6f4;
+    box-shadow:0 0 12px #65cfff;
+}
+
+/* WINGS */
+.wing{
+    position:absolute;
+    background:#8997aa;
+    width:55px;
+    height:25px;
+    top:58px;
+}
+
+.wing.top{
+    left:75px;
+    transform:skewX(-25deg);
+}
+
+.wing.bottom{
+    left:75px;
+    top:7px;
+    transform:skewX(25deg);
+}
+
+/* ROCKET FLAME */
+.flame{
+    position:absolute;
+    left:15px;
+    top:30px;
+    width:55px;
+    height:30px;
+    border-radius:50%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #66d9ff,
+        white
+    );
+    filter:blur(4px);
+    animation:flame 0.6s infinite alternate;
+}
+
+@keyframes flame{
+    from{
+        width:45px;
+        opacity:.6;
+    }
+
+    to{
+        width:75px;
+        opacity:1;
+    }
+}
+
+/* SMALL PARTICLES */
+.particle{
+    position:absolute;
+    width:5px;
+    height:5px;
+    background:#75d8ff;
+    border-radius:50%;
+    box-shadow:0 0 15px #75d8ff;
+    animation:particleMove 4s linear infinite;
+}
+
+@keyframes particleMove{
+    0%{
+        transform:translate(0,0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    100%{
+        transform:translate(500px,-200px);
+        opacity:0;
+    }
+}
+
+/* CONTENT */
+.container{
+    width:92%;
+    max-width:1100px;
+    margin:auto;
+}
+
+.title{
+    text-align:center;
+    font-size:30px;
+    letter-spacing:3px;
+    margin-bottom:25px;
+}
+
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+}
+
+.card{
+    padding:25px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(10px);
+    transition:.35s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    border-color:#72caff;
+    box-shadow:
+        0 15px 40px rgba(70,130,255,.2);
+}
+
+.card-icon{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#afb3ce;
+    line-height:1.6;
+    font-size:14px;
+}
+
+/* STATUS */
+.status{
+    margin-top:15px;
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    background:rgba(70,200,255,.12);
+    border:1px solid rgba(100,200,255,.3);
+}
+
+/* MISSION TIMELINE */
+.timeline{
+    margin:60px 0;
+}
+
+.event{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    margin:15px 0;
+    padding:18px;
+    border-left:3px solid #70caff;
+    background:rgba(255,255,255,.04);
+    border-radius:0 15px 15px 0;
+}
+
+.year{
+    min-width:90px;
+    color:#72ceff;
+    font-weight:bold;
+}
+
+/* FOOTER */
+footer{
+    margin-top:40px;
+    padding:35px;
+    text-align:center;
+    color:#777b9d;
+    border-top:1px solid rgba(255,255,255,.1);
+}
+
+/* MOBILE */
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:38px;
+        letter-spacing:4px;
+    }
+
+    .stage{
+        height:520px;
+    }
+
+    .rocket{
+        left:5%;
+        top:190px;
+        transform:scale(.8);
+    }
+
+    .planet{
+        right:2%;
+        top:70px;
+        width:140px;
+        height:140px;
+    }
+
+    .planet-ring{
+        right:-5%;
+        top:120px;
+        transform:scale(.8);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<header>
+
+    <div class="logo">
+        COSMOX
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← Back to Dashboard
+    </a>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>SPACECRAFT GARAGE</h1>
+
+    <p>
+        Explore the machines that take humanity beyond Earth 🚀
+    </p>
+
+</section>
+
+
+<!-- ANIMATED SPACE -->
+<section class="stage">
+
+    <div class="planet"></div>
+
+    <div class="planet-ring"></div>
+
+
+    <!-- ROCKET -->
+    <div class="rocket">
+
+        <div class="flame"></div>
+
+        <div class="rocket-body"></div>
+
+        <div class="window"></div>
+
+        <div class="nose"></div>
+
+        <div class="wing top"></div>
+
+        <div class="wing bottom"></div>
+
+    </div>
+
+
+    <!-- PARTICLES -->
+
+    <div class="particle"
+         style="left:10%;top:70%;animation-delay:0s"></div>
+
+    <div class="particle"
+         style="left:35%;top:80%;animation-delay:1s"></div>
+
+    <div class="particle"
+         style="left:55%;top:30%;animation-delay:2s"></div>
+
+    <div class="particle"
+         style="left:75%;top:75%;animation-delay:3s"></div>
+
+</section>
+
+
+<div class="container">
+
+<h2 class="title">
+    SPACECRAFT COLLECTION
+</h2>
+
+
+<div class="cards">
+
+
+    <div class="card">
+
+        <div class="card-icon">🚀</div>
+
+        <h3>Saturn V</h3>
+
+        <p>
+            The powerful launch vehicle used for
+            NASA's Apollo lunar missions.
+        </p>
+
+        <span class="status">
+            LEGENDARY
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">🛰️</div>
+
+        <h3>Voyager 1</h3>
+
+        <p>
+            A robotic spacecraft launched to study
+            the outer planets and interstellar space.
+        </p>
+
+        <span class="status">
+            DEEP SPACE
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">🔭</div>
+
+        <h3>James Webb</h3>
+
+        <p>
+            A powerful space telescope designed to
+            observe the universe in infrared wavelengths.
+        </p>
+
+        <span class="status">
+            ACTIVE
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">🚀</div>
+
+        <h3>Space Shuttle</h3>
+
+        <p>
+            A reusable spacecraft system that carried
+            astronauts and payloads into orbit.
+        </p>
+
+        <span class="status">
+            RETIRED
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">🌙</div>
+
+        <h3>Orion</h3>
+
+        <p>
+            A crew spacecraft developed for missions
+            beyond low Earth orbit.
+        </p>
+
+        <span class="status">
+            EXPLORATION
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">☀️</div>
+
+        <h3>Parker Solar Probe</h3>
+
+        <p>
+            A spacecraft designed to study the
+            Sun's outer atmosphere.
+        </p>
+
+        <span class="status">
+            SOLAR MISSION
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- TIMELINE -->
+
+<div class="timeline">
+
+<h2 class="title">
+    SPACECRAFT TIMELINE
+</h2>
+
+
+<div class="event">
+
+    <span class="year">1957</span>
+
+    <span>
+        Sputnik 1 becomes the first artificial satellite.
+    </span>
+
+</div>
+
+
+<div class="event">
+
+    <span class="year">1969</span>
+
+    <span>
+        Saturn V launches Apollo 11 toward the Moon.
+    </span>
+
+</div>
+
+
+<div class="event">
+
+    <span class="year">1977</span>
+
+    <span>
+        Voyager spacecraft begin their journey into deep space.
+    </span>
+
+</div>
+
+
+<div class="event">
+
+    <span class="year">2021</span>
+
+    <span>
+        James Webb Space Telescope launches into space.
+    </span>
+
+</div>
+
+
+<div class="event">
+
+    <span class="year">FUTURE</span>
+
+    <span>
+        New spacecraft will support lunar and deep-space exploration.
+    </span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+    COSMOX • SPACECRAFT GARAGE • Beyond Earth 🚀
+
+</footer>
+
+
+<script>
+
+/* CREATE STARS */
+
+const stars =
+document.getElementById("stars");
+
+for(let i=0;i<170;i++){
+
+    const star =
+    document.createElement("span");
+
+    star.className="star";
+
+    star.style.left =
+        Math.random()*100+"%";
+
+    star.style.top =
+        Math.random()*100+"%";
+
+    star.style.animationDelay =
+        Math.random()*3+"s";
+
+    const size =
+        Math.random()*3+1+"px";
+
+    star.style.width=size;
+    star.style.height=size;
+
+    stars.appendChild(star);
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COSMOX - Space News</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#020617;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* STAR BACKGROUND */
+.stars{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:
+        radial-gradient(circle at 20% 30%, #1e3a8a55 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 20%, #22d3ee55 0 2px, transparent 3px),
+        radial-gradient(circle at 40% 80%, #ffffff55 0 1px, transparent 2px);
+    background-size:180px 180px;
+    animation:spaceMove 25s linear infinite;
+}
+
+@keyframes spaceMove{
+    from{transform:translateY(0);}
+    to{transform:translateY(-180px);}
+}
+
+/* HEADER */
+header{
+    height:75px;
+    padding:0 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#020617dd;
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid #22d3ee55;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    color:#22d3ee;
+    text-shadow:0 0 15px #22d3ee;
+}
+
+.back{
+    text-decoration:none;
+    color:white;
+    border:1px solid #22d3ee;
+    padding:10px 18px;
+    border-radius:25px;
+    transition:.3s;
+}
+
+.back:hover{
+    background:#22d3ee;
+    color:#020617;
+    box-shadow:0 0 20px #22d3ee;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:70px 20px 45px;
+}
+
+.hero h1{
+    font-size:55px;
+    color:#22d3ee;
+    text-shadow:0 0 10px #22d3ee,0 0 30px #22d3ee;
+    animation:titleGlow 2s infinite alternate;
+}
+
+@keyframes titleGlow{
+    from{text-shadow:0 0 10px #22d3ee;}
+    to{text-shadow:0 0 30px #22d3ee,0 0 60px #2563eb;}
+}
+
+.hero p{
+    margin-top:15px;
+    color:#94a3b8;
+    font-size:17px;
+}
+
+/* NEWS CONTAINER */
+.news-container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+    padding-bottom:70px;
+}
+
+/* NEWS CARD */
+.news-card{
+    position:relative;
+    min-height:350px;
+    padding:25px;
+    border:1px solid #22d3ee55;
+    border-radius:22px;
+    background:linear-gradient(145deg,#0f172acc,#020617dd);
+    backdrop-filter:blur(12px);
+    overflow:hidden;
+    transition:.4s;
+    animation:cardShow .8s ease forwards;
+    opacity:0;
+}
+
+.news-card:nth-child(1){animation-delay:.1s;}
+.news-card:nth-child(2){animation-delay:.2s;}
+.news-card:nth-child(3){animation-delay:.3s;}
+.news-card:nth-child(4){animation-delay:.4s;}
+.news-card:nth-child(5){animation-delay:.5s;}
+.news-card:nth-child(6){animation-delay:.6s;}
+
+@keyframes cardShow{
+    from{
+        opacity:0;
+        transform:translateY(50px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.news-card:hover{
+    transform:translateY(-12px) scale(1.02);
+    border-color:#22d3ee;
+    box-shadow:0 0 30px #22d3ee44;
+}
+
+/* LIGHT SWEEP */
+.news-card::before{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:150%;
+    top:-30%;
+    left:-120px;
+    background:#ffffff22;
+    transform:rotate(25deg);
+    transition:.7s;
+}
+
+.news-card:hover::before{
+    left:120%;
+}
+
+/* NEWS IMAGE AREA */
+.news-image{
+    height:150px;
+    border-radius:16px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:75px;
+    position:relative;
+    overflow:hidden;
+    background:radial-gradient(circle,#164e63,#020617);
+}
+
+/* PLANET ANIMATION */
+.planet{
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    background:linear-gradient(120deg,#2563eb,#22d3ee,#172554);
+    box-shadow:0 0 30px #22d3ee;
+    animation:planetFloat 3s ease-in-out infinite;
+}
+
+@keyframes planetFloat{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-12px) rotate(180deg);}
+}
+
+/* ROCKET */
+.rocket{
+    font-size:75px;
+    animation:rocketMove 2s ease-in-out infinite;
+}
+
+@keyframes rocketMove{
+    0%,100%{transform:translate(-10px,10px) rotate(-15deg);}
+    50%{transform:translate(10px,-10px) rotate(-15deg);}
+}
+
+/* GALAXY */
+.galaxy{
+    width:110px;
+    height:55px;
+    border-radius:50%;
+    background:radial-gradient(
+        ellipse,
+        #fff,
+        #22d3ee,
+        #7c3aed,
+        transparent 70%
+    );
+    box-shadow:0 0 35px #7c3aed;
+    animation:galaxySpin 3s linear infinite;
+}
+
+@keyframes galaxySpin{
+    to{transform:rotate(360deg);}
+}
+
+/* BLACK HOLE */
+.blackhole{
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    background:#000;
+    box-shadow:
+        0 0 10px #f97316,
+        0 0 30px #f97316,
+        0 0 50px #7c2d12;
+    animation:blackSpin 2s linear infinite;
+}
+
+@keyframes blackSpin{
+    to{transform:rotate(360deg) scale(1.08);}
+}
+
+/* NEWS CONTENT */
+.category{
+    color:#22d3ee;
+    font-size:13px;
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.news-card h2{
+    margin:10px 0;
+    font-size:21px;
+}
+
+.news-card p{
+    color:#94a3b8;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.date{
+    display:block;
+    margin-top:18px;
+    color:#64748b;
+    font-size:12px;
+}
+
+/* READ BUTTON */
+.read-btn{
+    margin-top:15px;
+    padding:9px 16px;
+    border:none;
+    border-radius:20px;
+    background:#22d3ee;
+    color:#020617;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.read-btn:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 15px #22d3ee;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000b;
+    backdrop-filter:blur(8px);
+    justify-content:center;
+    align-items:center;
+    z-index:20;
+    padding:20px;
+}
+
+.modal-box{
+    max-width:600px;
+    width:100%;
+    padding:35px;
+    border-radius:25px;
+    background:#0f172a;
+    border:1px solid #22d3ee;
+    box-shadow:0 0 40px #22d3ee55;
+    animation:modalOpen .4s ease;
+}
+
+@keyframes modalOpen{
+    from{
+        transform:scale(.7);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.modal-box h2{
+    color:#22d3ee;
+    margin-bottom:15px;
+}
+
+.modal-box p{
+    color:#cbd5e1;
+    line-height:1.7;
+}
+
+.close{
+    float:right;
+    font-size:25px;
+    cursor:pointer;
+    color:#94a3b8;
+}
+
+.close:hover{
+    color:#22d3ee;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    .news-container{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+    .hero h1{
+        font-size:38px;
+    }
+
+    .news-container{
+        grid-template-columns:1fr;
+    }
+
+    header{
+        padding:0 5%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<header>
+    <div class="logo">COSMOX 🚀</div>
+    <a href="dashboard.html" class="back">← Dashboard</a>
+</header>
+
+<section class="hero">
+    <h1>SPACE NEWS 🌌</h1>
+    <p>Explore the latest discoveries, missions and cosmic events.</p>
+</section>
+
+<section class="news-container">
+
+    <!-- NEWS 1 -->
+    <div class="news-card">
+        <div class="news-image">
+            <div class="planet"></div>
+        </div>
+
+        <span class="category">Planet Discovery</span>
+
+        <h2>🌍 New Planet Exploration</h2>
+
+        <p>
+            Scientists continue exploring distant planets and studying
+            their atmosphere, surface and possibility of supporting life.
+        </p>
+
+        <span class="date">17 September 2026</span>
+
+        <button class="read-btn"
+        onclick="openNews(
+        '🌍 New Planet Exploration',
+        'Modern space telescopes help scientists study planets outside our Solar System. These observations can provide information about planetary atmospheres and environments.'
+        )">
+        Read More
+        </button>
+    </div>
+
+
+    <!-- NEWS 2 -->
+    <div class="news-card">
+
+        <div class="news-image">
+            <div class="rocket">🚀</div>
+        </div>
+
+        <span class="category">Space Mission</span>
+
+        <h2>🚀 New Space Mission</h2>
+
+        <p>
+            Space agencies are developing new missions to explore the
+            Moon, Mars and deeper regions of our Solar System.
+        </p>
+
+        <span class="date">16 September 2026</span>
+
+        <button class="read-btn"
+        onclick="openNews(
+        '🚀 New Space Mission',
+        'Future missions are focusing on scientific research, robotic exploration and preparation for longer human missions beyond Earth orbit.'
+        )">
+        Read More
+        </button>
+
+    </div>
+
+
+    <!-- NEWS 3 -->
+    <div class="news-card">
+
+        <div class="news-image">
+            <div class="galaxy"></div>
+        </div>
+
+        <span class="category">Deep Space</span>
+
+        <h2>🌌 Galaxy Research</h2>
+
+        <p>
+            Astronomers use powerful telescopes to observe distant galaxies
+            and understand how galaxies form and evolve.
+        </p>
+
+        <span class="date">15 September 2026</span>
+
+        <button class="read-btn"
+        onclick="openNews(
+        '🌌 Galaxy Research',
+        'Deep-space observations allow astronomers to study galaxies from different stages of cosmic history and improve our understanding of the universe.'
+        )">
+        Read More
+        </button>
+
+    </div>
+
+
+    <!-- NEWS 4 -->
+    <div class="news-card">
+
+        <div class="news-image">
+            <div class="blackhole"></div>
+        </div>
+
+        <span class="category">Black Hole</span>
+
+        <h2>🕳️ Black Hole Research</h2>
+
+        <p>
+            Scientists continue studying black holes and the extreme
+            environments created by their powerful gravity.
+        </p>
+
+        <span class="date">14 September 2026</span>
+
+        <button class="read-btn"
+        onclick="openNews(
+        '🕳️ Black Hole Research',
+        'Black holes are regions of space where gravity is extremely strong. Observations of matter around them help researchers understand these fascinating objects.'
+        )">
+        Read More
+        </button>
+
+    </div>
+
+
+    <!-- NEWS 5 -->
+    <div class="news-card">
+
+        <div class="news-image">
+            🛰️
+        </div>
+
+        <span class="category">Technology</span>
+
+        <h2>🛰️ Next Generation Spacecraft</h2>
+
+        <p>
+            Engineers are working on advanced spacecraft technologies
+            designed for safer and more efficient space exploration.
+        </p>
+
+        <span class="date">13 September 2026</span>
+
+        <button class="read-btn"
+        onclick="openNews(
+        '🛰️ Next Generation Spacecraft',
+        'Future spacecraft designs focus on improved navigation, communication, scientific instruments and reusable technologies.'
+        )">
+        Read More
+        </button>
+
+    </div>
+
+
+    <!-- NEWS 6 -->
+    <div class="news-card">
+
+        <div class="news-image">
+            👨‍🚀
+        </div>
+
+        <span class="category">Astronauts</span>
+
+        <h2>👨‍🚀 Future Human Exploration</h2>
+
+        <p>
+            Human spaceflight research continues to prepare astronauts
+            for longer missions and challenging environments.
+        </p>
+
+        <span class="date">12 September 2026</span>
+
+        <button class="read-btn"
+        onclick="openNews(
+        '👨‍🚀 Future Human Exploration',
+        'Long-duration space missions require advanced life-support systems, communication technology, scientific planning and careful astronaut training.'
+        )">
+        Read More
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- MODAL -->
+<div class="modal" id="newsModal">
+
+    <div class="modal-box">
+
+        <span class="close" onclick="closeNews()">×</span>
+
+        <h2 id="modalTitle"></h2>
+
+        <p id="modalText"></p>
+
+        <br>
+
+        <button class="read-btn" onclick="closeNews()">
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* OPEN NEWS */
+function openNews(title,text){
+
+    document.getElementById("modalTitle").innerText = title;
+
+    document.getElementById("modalText").innerText = text;
+
+    document.getElementById("newsModal").style.display = "flex";
+}
+
+
+/* CLOSE NEWS */
+function closeNews(){
+
+    document.getElementById("newsModal").style.display = "none";
+}
+
+
+/* CLOSE WHEN CLICK OUTSIDE */
+window.onclick = function(event){
+
+    const modal = document.getElementById("newsModal");
+
+    if(event.target === modal){
+        closeNews();
+    }
+
+}
+
+</script>
+
+</body>
+</html>

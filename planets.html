@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>COSMOX - Planet Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            background: #020617;
+            min-height: 100vh;
+        }
+
+        .space {
+            min-height: 100vh;
+            padding: 25px;
+            background:
+                linear-gradient(
+                    rgba(2,6,23,0.5),
+                    rgba(2,6,23,0.95)
+                ),
+                url("https://images-assets.nasa.gov/image/PIA12348/PIA12348~orig.jpg");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* HEADER */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 15px 20px;
+
+            border: 1px solid rgba(56,189,248,0.4);
+            border-radius: 18px;
+
+            background: rgba(15,23,42,0.75);
+            backdrop-filter: blur(15px);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: #38bdf8;
+
+            text-shadow:
+                0 0 10px #38bdf8,
+                0 0 25px #2563eb;
+        }
+
+        .back-btn {
+            padding: 9px 20px;
+
+            border: 1px solid #38bdf8;
+            border-radius: 20px;
+
+            background: rgba(56,189,248,0.1);
+            color: white;
+
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #0284c7;
+            box-shadow: 0 0 20px #38bdf8;
+        }
+
+        /* TITLE */
+
+        .title {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .title h1 {
+            font-size: 42px;
+            color: #38bdf8;
+
+            text-shadow:
+                0 0 10px #38bdf8,
+                0 0 30px #2563eb;
+        }
+
+        .title p {
+            margin-top: 8px;
+            color: #94a3b8;
+        }
+
+        /* PLANETS */
+
+        .planet-grid {
+            max-width: 1200px;
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 22px;
+        }
+
+        .planet-card {
+            padding: 20px;
+
+            text-align: center;
+
+            border: 1px solid #334155;
+            border-radius: 22px;
+
+            background: rgba(15,23,42,0.72);
+            backdrop-filter: blur(12px);
+
+            cursor: pointer;
+
+            transition: 0.35s;
+        }
+
+        .planet-card:hover {
+            transform: translateY(-8px);
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 25px rgba(56,189,248,0.2);
+        }
+
+        .planet-image {
+            width: 150px;
+            height: 150px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            overflow: hidden;
+
+            border: 2px solid rgba(56,189,248,0.4);
+
+            box-shadow:
+                0 0 25px rgba(56,189,248,0.25);
+        }
+
+        .planet-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .planet-card h2 {
+            margin-top: 18px;
+            color: #38bdf8;
+        }
+
+        .planet-card p {
+            margin-top: 8px;
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* DETAIL PANEL */
+
+        .details {
+            max-width: 1000px;
+
+            margin: 35px auto 0;
+
+            padding: 30px;
+
+            border: 1px solid rgba(56,189,248,0.4);
+
+            border-radius: 25px;
+
+            background: rgba(15,23,42,0.8);
+
+            backdrop-filter: blur(15px);
+
+            display: none;
+        }
+
+        .details.active {
+            display: block;
+        }
+
+        .details h2 {
+            color: #38bdf8;
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .details-description {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(170px, 1fr));
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+        .stat {
+            padding: 18px;
+
+            border: 1px solid #334155;
+
+            border-radius: 15px;
+
+            background: rgba(2,6,23,0.6);
+        }
+
+        .stat span {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+        }
+
+        .stat strong {
+            display: block;
+
+            margin-top: 7px;
+
+            color: #38bdf8;
+
+            font-size: 18px;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:600px) {
+
+            .title h1 {
+                font-size: 30px;
+            }
+
+            .planet-image {
+                width: 120px;
+                height: 120px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="space">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+            COSMOX 🚀
+        </div>
+
+        <button
+            class="back-btn"
+            onclick="goBack()"
+        >
+            ← Solar System
+        </button>
+
+    </header>
+
+
+    <!-- TITLE -->
+
+    <section class="title">
+
+        <h1>
+            🪐 Planet Explorer
+        </h1>
+
+        <p>
+            Choose a planet and discover its secrets
+        </p>
+
+    </section>
+
+
+    <!-- PLANET CARDS -->
+
+    <section class="planet-grid">
+
+
+        <!-- MERCURY -->
+
+        <div
+            class="planet-card"
+            onclick="showPlanet('Mercury')"
+        >
+
+            <div class="planet-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA15162/PIA15162~orig.jpg"
+                    alt="Mercury"
+                >
+
+            </div>
+
+            <h2>
+                Mercury
+            </h2>
+
+            <p>
+                The smallest planet and
+                closest to the Sun.
+            </p>
+
+        </div>
+
+
+        <!-- VENUS -->
+
+        <div
+            class="planet-card"
+            onclick="showPlanet('Venus')"
+        >
+
+            <div class="planet-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA00271/PIA00271~orig.jpg"
+                    alt="Venus"
+                >
+
+            </div>
+
+            <h2>
+                Venus
+            </h2>
+
+            <p>
+                A hot world covered
+                by thick clouds.
+            </p>
+
+        </div>
+
+
+        <!-- EARTH -->
+
+        <div
+            class="planet-card"
+            onclick="showPlanet('Earth')"
+        >
+
+            <div class="planet-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA18033/PIA18033~orig.jpg"
+                    alt="Earth"
+                >
+
+            </div>
+
+            <h2>
+                Earth
+            </h2>
+
+            <p>
+                Our home planet and
+                world of life.
+            </p>
+
+        </div>
+
+
+        <!-- MARS -->
+
+        <div
+            class="planet-card"
+            onclick="showPlanet('Mars')"
+        >
+
+            <div class="planet-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA00407/PIA00407~orig.jpg"
+                    alt="Mars"
+                >
+
+            </div>
+
+            <h2>
+                Mars
+            </h2>
+
+            <p>
+                The Red Planet with
+                huge valleys and mountains.
+            </p>
+
+        </div>
+
+
+        <!-- JUPITER -->
+
+        <div
+            class="planet-card"
+            onclick="showPlanet('Jupiter')"
+        >
+
+            <div class="planet-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA02833/PIA02833~orig.jpg"
+                    alt="Jupiter"
+                >
+
+            </div>
+
+            <h2>
+                Jupiter
+            </h2>
+
+            <p>
+                The largest planet in
+                our Solar System.
+            </p>
+
+        </div>
+
+
+        <!-- SATURN -->
+
+        <div
+            class="planet-card"
+            onclick="showPlanet('Saturn')"
+        >
+
+            <div class="planet-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA01364/PIA01364~orig.jpg"
+                    alt="Saturn"
+                >
+
+            </div>
+
+            <h2>
+                Saturn
+            </h2>
+
+            <p>
+                Famous for its spectacular
+                ring system.
+            </p>
+
+        </div>
+
+
+        <!-- URANUS -->
+
+        <div
+            class="planet-card"
+            onclick="showPlanet('Uranus')"
+        >
+
+            <div class="planet-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA18182/PIA18182~orig.jpg"
+                    alt="Uranus"
+                >
+
+            </div>
+
+            <h2>
+                Uranus
+            </h2>
+
+            <p>
+                An ice giant that rotates
+                on its side.
+            </p>
+
+        </div>
+
+
+        <!-- NEPTUNE -->
+
+        <div
+            class="planet-card"
+            onclick="showPlanet('Neptune')"
+        >
+
+            <div class="planet-image">
+
+                <img
+                    src="https://images-assets.nasa.gov/image/PIA01492/PIA01492~orig.jpg"
+                    alt="Neptune"
+                >
+
+            </div>
+
+            <h2>
+                Neptune
+            </h2>
+
+            <p>
+                The distant blue ice giant
+                of our Solar System.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DETAILS -->
+
+    <section
+        class="details"
+        id="details"
+    >
+
+        <h2 id="planetName">
+            Planet
+        </h2>
+
+        <p
+            class="details-description"
+            id="description"
+        ></p>
+
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <span>
+                    TYPE
+                </span>
+
+                <strong id="type">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    DAY LENGTH
+                </span>
+
+                <strong id="day">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    YEAR LENGTH
+                </span>
+
+                <strong id="year">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    MOONS
+                </span>
+
+                <strong id="moons">
+                    -
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<script>
+
+
+    /* PLANET DATA */
+
+    const planetData = {
+
+        Mercury: {
+
+            description:
+            "Mercury is the smallest planet in the Solar System and the closest planet to the Sun.",
+
+            type:
+            "Rocky Planet",
+
+            day:
+            "59 Earth days",
+
+            year:
+            "88 Earth days",
+
+            moons:
+            "0"
+
+        },
+
+
+        Venus: {
+
+            description:
+            "Venus is a rocky planet with a very thick atmosphere and extremely high surface temperatures.",
+
+            type:
+            "Rocky Planet",
+
+            day:
+            "243 Earth days",
+
+            year:
+            "225 Earth days",
+
+            moons:
+            "0"
+
+        },
+
+
+        Earth: {
+
+            description:
+            "Earth is our home planet. It has liquid water on its surface and is the only known world with life.",
+
+            type:
+            "Rocky Planet",
+
+            day:
+            "24 hours",
+
+            year:
+            "365 days",
+
+            moons:
+            "1"
+
+        },
+
+
+        Mars: {
+
+            description:
+            "Mars is known as the Red Planet. It has polar ice caps, giant volcanoes and deep valleys.",
+
+            type:
+            "Rocky Planet",
+
+            day:
+            "24.6 hours",
+
+            year:
+            "687 days",
+
+            moons:
+            "2"
+
+        },
+
+
+        Jupiter: {
+
+            description:
+            "Jupiter is the largest planet in the Solar System and is famous for its Great Red Spot.",
+
+            type:
+            "Gas Giant",
+
+            day:
+            "9.9 hours",
+
+            year:
+            "11.86 years",
+
+            moons:
+            "Many"
+
+        },
+
+
+        Saturn: {
+
+            description:
+            "Saturn is a gas giant surrounded by a spectacular system of icy rings.",
+
+            type:
+            "Gas Giant",
+
+            day:
+            "10.7 hours",
+
+            year:
+            "29.5 years",
+
+            moons:
+            "Many"
+
+        },
+
+
+        Uranus: {
+
+            description:
+            "Uranus is an ice giant with a blue-green appearance and an unusual sideways rotation.",
+
+            type:
+            "Ice Giant",
+
+            day:
+            "17.2 hours",
+
+            year:
+            "84 years",
+
+            moons:
+            "Many"
+
+        },
+
+
+        Neptune: {
+
+            description:
+            "Neptune is the farthest major planet from the Sun and has extremely powerful winds.",
+
+            type:
+            "Ice Giant",
+
+            day:
+            "16.1 hours",
+
+            year:
+            "164.8 years",
+
+            moons:
+            "Many"
+
+        }
+
+    };
+
+
+    /* SHOW PLANET */
+
+    function showPlanet(name) {
+
+        const data =
+            planetData[name];
+
+        document.getElementById("planetName")
+            .innerText = name;
+
+        document.getElementById("description")
+            .innerText = data.description;
+
+        document.getElementById("type")
+            .innerText = data.type;
+
+        document.getElementById("day")
+            .innerText = data.day;
+
+        document.getElementById("year")
+            .innerText = data.year;
+
+        document.getElementById("moons")
+            .innerText = data.moons;
+
+
+        document.getElementById("details")
+            .classList.add("active");
+
+
+        document.getElementById("details")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    /* BACK */
+
+    function goBack() {
+
+        window.location.href =
+            "solar.html";
+
+    }
+
+</script>
+<script src="script.js"></script>
+</body>
+
+</html>

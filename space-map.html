@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>COSMOX - Space Map</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#020617;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* ================= STARS ================= */
+
+.stars{
+    position:fixed;
+    inset:0;
+    z-index:-3;
+
+    background-image:
+        radial-gradient(white 1px,transparent 1px),
+        radial-gradient(#22d3ee 1px,transparent 1px),
+        radial-gradient(#a855f7 1px,transparent 1px);
+
+    background-size:
+        80px 80px,
+        130px 130px,
+        190px 190px;
+
+    animation:moveStars 25s linear infinite;
+}
+
+@keyframes moveStars{
+
+    from{
+        background-position:0 0,0 0,0 0;
+    }
+
+    to{
+        background-position:
+            0 500px,
+            300px 400px,
+            500px 700px;
+    }
+}
+
+
+/* ================= HEADER ================= */
+
+header{
+    height:75px;
+    padding:0 7%;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:#020617dd;
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid #22d3ee55;
+
+    position:sticky;
+    top:0;
+
+    z-index:20;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+
+    color:#22d3ee;
+
+    text-shadow:
+        0 0 10px #22d3ee,
+        0 0 25px #22d3ee;
+}
+
+.back{
+    color:white;
+    text-decoration:none;
+
+    padding:10px 18px;
+
+    border:1px solid #22d3ee;
+
+    border-radius:25px;
+
+    transition:.3s;
+}
+
+.back:hover{
+    background:#22d3ee;
+    color:#020617;
+
+    box-shadow:0 0 25px #22d3ee;
+}
+
+
+/* ================= HERO ================= */
+
+.hero{
+    text-align:center;
+    padding:60px 20px 30px;
+}
+
+.hero h1{
+    font-size:52px;
+
+    color:#22d3ee;
+
+    text-shadow:
+        0 0 10px #22d3ee,
+        0 0 30px #2563eb;
+
+    animation:titleGlow 2s infinite alternate;
+}
+
+@keyframes titleGlow{
+
+    from{
+        text-shadow:0 0 10px #22d3ee;
+    }
+
+    to{
+        text-shadow:
+            0 0 25px #22d3ee,
+            0 0 55px #7c3aed;
+    }
+}
+
+.hero p{
+    color:#94a3b8;
+    margin-top:12px;
+}
+
+
+/* ================= MAP ================= */
+
+.map-wrapper{
+
+    width:92%;
+    max-width:1100px;
+
+    margin:30px auto 70px;
+
+    padding:30px;
+
+    border-radius:30px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #0e749055,
+            #020617 65%
+        );
+
+    border:1px solid #22d3ee55;
+
+    box-shadow:
+        0 0 40px #22d3ee22;
+
+    overflow:hidden;
+}
+
+
+/* MAP */
+
+.space-map{
+
+    width:100%;
+    height:560px;
+
+    position:relative;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #111827,
+            #020617 70%
+        );
+
+    overflow:hidden;
+}
+
+
+/* GRID */
+
+.space-map::before{
+
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background-image:
+        linear-gradient(#22d3ee12 1px,transparent 1px),
+        linear-gradient(90deg,#22d3ee12 1px,transparent 1px);
+
+    background-size:50px 50px;
+
+    animation:gridMove 8s linear infinite;
+}
+
+@keyframes gridMove{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(50px,50px);
+    }
+}
+
+
+/* ================= SUN ================= */
+
+.sun{
+
+    position:absolute;
+
+    width:80px;
+    height:80px;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff7aa,
+            #facc15,
+            #f97316,
+            #dc2626
+        );
+
+    box-shadow:
+        0 0 25px #facc15,
+        0 0 60px #f97316,
+        0 0 100px #ef4444;
+
+    z-index:5;
+
+    animation:sunPulse 2s infinite alternate;
+}
+
+@keyframes sunPulse{
+
+    from{
+        transform:translate(-50%,-50%) scale(1);
+    }
+
+    to{
+        transform:translate(-50%,-50%) scale(1.1);
+    }
+}
+
+
+/* ================= ORBITS ================= */
+
+.orbit{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    border:1px solid #22d3ee44;
+
+    border-radius:50%;
+
+    transform:translate(-50%,-50%);
+
+    pointer-events:none;
+}
+
+.orbit1{
+    width:160px;
+    height:100px;
+}
+
+.orbit2{
+    width:260px;
+    height:160px;
+}
+
+.orbit3{
+    width:380px;
+    height:230px;
+}
+
+.orbit4{
+    width:510px;
+    height:310px;
+}
+
+.orbit5{
+    width:650px;
+    height:390px;
+}
+
+
+/* ================= PLANETS ================= */
+
+.planet{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    z-index:8;
+
+    transition:.3s;
+
+    pointer-events:auto;
+}
+
+.planet:hover{
+
+    transform:scale(1.5);
+
+    filter:brightness(1.4);
+
+    z-index:15;
+}
+
+
+/* MERCURY */
+
+.mercury{
+
+    width:15px;
+    height:15px;
+
+    background:#a8a29e;
+
+    left:calc(50% - 80px);
+    top:calc(50% - 50px);
+
+    animation:mercuryMove 7s linear infinite;
+}
+
+@keyframesmercuryMove{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+/* VENUS */
+
+.venus{
+
+    width:23px;
+    height:23px;
+
+    background:#f59e0b;
+
+    left:calc(50% + 100px);
+    top:calc(50% - 60px);
+
+    box-shadow:0 0 12px #f59e0b;
+
+    animation:venusFloat 5s infinite alternate;
+}
+
+@keyframesvenusFloat{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(-15px);
+    }
+}
+
+
+/* EARTH */
+
+.earth{
+
+    width:32px;
+    height:32px;
+
+    background:
+        radial-gradient(
+            circle at 35% 35%,
+            #60a5fa,
+            #2563eb,
+            #064e3b
+        );
+
+    left:calc(50% - 185px);
+    top:calc(50% - 115px);
+
+    box-shadow:0 0 18px #38bdf8;
+
+    animation:earthRotate 5s linear infinite;
+}
+
+@keyframesearthRotate{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+/* MARS */
+
+.mars{
+
+    width:27px;
+    height:27px;
+
+    background:#ef4444;
+
+    left:calc(50% + 190px);
+    top:calc(50% - 115px);
+
+    box-shadow:0 0 15px #ef4444;
+
+    animation:marsFloat 4s infinite alternate;
+}
+
+@keyframesmarsFloat{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(12px);
+    }
+}
+
+
+/* JUPITER */
+
+.jupiter{
+
+    width:52px;
+    height:52px;
+
+    background:
+        linear-gradient(
+            #d6b48c,
+            #a16207,
+            #f5deb3,
+            #92400e,
+            #d6b48c
+        );
+
+    left:calc(50% - 310px);
+    top:calc(50% - 190px);
+
+    box-shadow:0 0 20px #d6b48c;
+
+    animation:jupiterFloat 5s infinite alternate;
+}
+
+@keyframesjupiterFloat{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(-10px);
+    }
+}
+
+
+/* SATURN */
+
+.saturn{
+
+    width:45px;
+    height:45px;
+
+    background:#d6b48c;
+
+    left:calc(50% + 280px);
+    top:calc(50% - 190px);
+
+    box-shadow:0 0 18px #facc15;
+}
+
+.saturn::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:75px;
+    height:20px;
+
+    border:4px solid #facc15;
+
+    border-radius:50%;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        rotate(-15deg);
+
+    box-shadow:0 0 8px #facc15;
+}
+
+
+/* LABEL */
+
+.label{
+
+    position:absolute;
+
+    top:100%;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    margin-top:6px;
+
+    font-size:10px;
+
+    color:#cbd5e1;
+
+    white-space:nowrap;
+
+    pointer-events:none;
+}
+
+
+/* ================= INFO ================= */
+
+.info{
+
+    width:92%;
+    max-width:900px;
+
+    margin:-30px auto 70px;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    background:#0f172acc;
+
+    border:1px solid #22d3ee55;
+
+    backdrop-filter:blur(15px);
+
+    text-align:center;
+
+    display:none;
+
+    animation:infoOpen .5s ease;
+}
+
+@keyframesinfoOpen{
+
+    from{
+        opacity:0;
+        transform:scale(.9);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.info h2{
+    color:#22d3ee;
+    margin-bottom:12px;
+}
+
+.info p{
+    color:#94a3b8;
+    line-height:1.7;
+}
+
+.close-info{
+
+    margin-top:20px;
+
+    padding:10px 20px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:#22d3ee;
+
+    color:#020617;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* ================= LEGEND ================= */
+
+.legend{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin-top:25px;
+}
+
+.legend span{
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    color:#cbd5e1;
+
+    font-size:13px;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .map-wrapper{
+        padding:15px;
+    }
+
+    .space-map{
+        height:450px;
+    }
+
+    .orbit5{
+        width:500px;
+        height:300px;
+    }
+
+    .jupiter,
+    .saturn{
+        transform:scale(.75);
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="stars"></div>
+
+
+<header>
+
+    <div class="logo">
+        COSMOX 🚀
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>SPACE MAP 🌌</h1>
+
+    <p>
+        Explore planets across the COSMOX Solar System
+    </p>
+
+</section>
+
+
+<!-- MAP -->
+
+<div class="map-wrapper">
+
+    <div class="space-map">
+
+        <!-- SUN -->
+
+        <div class="sun"
+             onclick="showInfo(
+             '☀️ Sun',
+             'The Sun is the star at the center of our Solar System.'
+             )">
+        </div>
+
+
+        <!-- ORBITS -->
+
+        <div class="orbit orbit1"></div>
+        <div class="orbit orbit2"></div>
+        <div class="orbit orbit3"></div>
+        <div class="orbit orbit4"></div>
+        <div class="orbit orbit5"></div>
+
+
+        <!-- MERCURY -->
+
+        <div class="planet mercury"
+             onclick="showInfo(
+             '☿ Mercury',
+             'Mercury is the closest planet to the Sun.'
+             )">
+
+            <span class="label">
+                Mercury
+            </span>
+
+        </div>
+
+
+        <!-- VENUS -->
+
+        <div class="planet venus"
+             onclick="showInfo(
+             '♀ Venus',
+             'Venus is the second planet from the Sun and has a very thick atmosphere.'
+             )">
+
+            <span class="label">
+                Venus
+            </span>
+
+        </div>
+
+
+        <!-- EARTH -->
+
+        <div class="planet earth"
+             onclick="showInfo(
+             '🌍 Earth',
+             'Earth is our home planet and the only known world supporting life.'
+             )">
+
+            <span class="label">
+                Earth
+            </span>
+
+        </div>
+
+
+        <!-- MARS -->
+
+        <div class="planet mars"
+             onclick="showInfo(
+             '🔴 Mars',
+             'Mars is known as the Red Planet and is a major target for exploration.'
+             )">
+
+            <span class="label">
+                Mars
+            </span>
+
+        </div>
+
+
+        <!-- JUPITER -->
+
+        <div class="planet jupiter"
+             onclick="showInfo(
+             '🪐 Jupiter',
+             'Jupiter is the largest planet in our Solar System.'
+             )">
+
+            <span class="label">
+                Jupiter
+            </span>
+
+        </div>
+
+
+        <!-- SATURN -->
+
+        <div class="planet saturn"
+             onclick="showInfo(
+             '🪐 Saturn',
+             'Saturn is famous for its beautiful ring system.'
+             )">
+
+            <span class="label">
+                Saturn
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- LEGEND -->
+
+    <div class="legend">
+
+        <span>☀️ Sun</span>
+        <span>☿ Mercury</span>
+        <span>♀ Venus</span>
+        <span>🌍 Earth</span>
+        <span>🔴 Mars</span>
+        <span>🪐 Jupiter</span>
+        <span>🪐 Saturn</span>
+
+    </div>
+
+</div>
+
+
+<!-- INFO -->
+
+<div class="info" id="infoBox">
+
+    <h2 id="infoTitle"></h2>
+
+    <p id="infoText"></p>
+
+    <button class="close-info"
+            onclick="closeInfo()">
+
+        Close
+
+    </button>
+
+</div>
+
+
+<script>
+
+/* SHOW PLANET INFORMATION */
+
+function showInfo(title,text){
+
+    document.getElementById("infoTitle")
+        .innerText = title;
+
+    document.getElementById("infoText")
+        .innerText = text;
+
+    document.getElementById("infoBox")
+        .style.display = "block";
+
+    document.getElementById("infoBox")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+}
+
+
+/* CLOSE */
+
+function closeInfo(){
+
+    document.getElementById("infoBox")
+        .style.display = "none";
+
+}
+
+
+/* FLOATING PARTICLES */
+
+for(let i=0;i<30;i++){
+
+    let p=document.createElement("div");
+
+    p.style.position="fixed";
+
+    p.style.width="3px";
+    p.style.height="3px";
+
+    p.style.background="#22d3ee";
+
+    p.style.borderRadius="50%";
+
+    p.style.left=Math.random()*100+"%";
+    p.style.top=Math.random()*100+"%";
+
+    p.style.opacity=Math.random();
+
+    p.style.boxShadow="0 0 8px #22d3ee";
+
+    p.style.zIndex="-1";
+
+    document.body.appendChild(p);
+}
+
+</script>
+
+</body>
+</html>

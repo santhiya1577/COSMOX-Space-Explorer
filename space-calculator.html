@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>COSMOX - Space Calculator</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#020617;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* STAR BACKGROUND */
+
+.stars{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+
+    background-image:
+        radial-gradient(white 1px,transparent 1px),
+        radial-gradient(#22d3ee 1px,transparent 1px),
+        radial-gradient(#a855f7 1px,transparent 1px);
+
+    background-size:80px 80px,130px 130px,180px 180px;
+
+    animation:starsMove 25s linear infinite;
+}
+
+@keyframes starsMove{
+
+    from{
+        background-position:0 0,0 0,0 0;
+    }
+
+    to{
+        background-position:0 500px,300px 400px,500px 700px;
+    }
+}
+
+
+/* HEADER */
+
+header{
+    height:75px;
+    padding:0 7%;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:#020617dd;
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid #22d3ee55;
+
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    color:#22d3ee;
+    font-size:25px;
+    font-weight:bold;
+
+    text-shadow:
+        0 0 10px #22d3ee,
+        0 0 25px #22d3ee;
+}
+
+.back{
+    color:white;
+    text-decoration:none;
+
+    padding:10px 18px;
+
+    border:1px solid #22d3ee;
+    border-radius:25px;
+
+    transition:.3s;
+}
+
+.back:hover{
+    background:#22d3ee;
+    color:#020617;
+
+    box-shadow:0 0 25px #22d3ee;
+}
+
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:65px 20px 35px;
+}
+
+.hero h1{
+    font-size:52px;
+
+    color:#22d3ee;
+
+    text-shadow:
+        0 0 10px #22d3ee,
+        0 0 30px #2563eb;
+
+    animation:titleGlow 2s infinite alternate;
+}
+
+@keyframes titleGlow{
+
+    from{
+        text-shadow:0 0 10px #22d3ee;
+    }
+
+    to{
+        text-shadow:
+            0 0 25px #22d3ee,
+            0 0 55px #7c3aed;
+    }
+}
+
+.hero p{
+    margin-top:15px;
+    color:#94a3b8;
+}
+
+
+/* CALCULATOR */
+
+.calculator{
+
+    width:90%;
+    max-width:600px;
+
+    margin:30px auto 70px;
+
+    padding:30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0f172acc,
+            #020617ee
+        );
+
+    border:1px solid #22d3ee66;
+
+    border-radius:28px;
+
+    backdrop-filter:blur(15px);
+
+    box-shadow:
+        0 0 30px #22d3ee22,
+        inset 0 0 30px #22d3ee08;
+
+    animation:calculatorEntry .8s ease;
+}
+
+@keyframes calculatorEntry{
+
+    from{
+        opacity:0;
+        transform:translateY(50px) scale(.95);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+
+/* DISPLAY */
+
+.display{
+
+    width:100%;
+
+    padding:20px;
+
+    margin-bottom:25px;
+
+    border-radius:18px;
+
+    background:#020617;
+
+    border:1px solid #22d3ee55;
+
+    color:#22d3ee;
+
+    text-align:right;
+
+    font-size:32px;
+
+    min-height:70px;
+
+    box-shadow:
+        inset 0 0 20px #22d3ee11,
+        0 0 15px #22d3ee11;
+
+    overflow:hidden;
+}
+
+
+/* BUTTON GRID */
+
+.buttons{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+}
+
+button{
+
+    height:65px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#111827;
+
+    color:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    border:1px solid #334155;
+
+    transition:.2s;
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    border-color:#22d3ee;
+
+    box-shadow:0 0 15px #22d3ee55;
+
+    color:#22d3ee;
+}
+
+button:active{
+
+    transform:scale(.92);
+
+    box-shadow:0 0 25px #22d3ee;
+}
+
+
+/* SPECIAL BUTTONS */
+
+.operator{
+    color:#22d3ee;
+}
+
+.clear{
+    color:#f87171;
+}
+
+.equal{
+
+    background:#22d3ee;
+
+    color:#020617;
+
+    font-weight:bold;
+
+    box-shadow:0 0 15px #22d3ee55;
+}
+
+.equal:hover{
+
+    background:#67e8f9;
+
+    color:#020617;
+}
+
+.zero{
+    grid-column:span 2;
+}
+
+
+/* SPACE CALCULATIONS */
+
+.info{
+
+    width:90%;
+    max-width:1100px;
+
+    margin:0 auto 70px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:20px;
+}
+
+.info-card{
+
+    padding:25px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#0f172acc;
+
+    border:1px solid #22d3ee44;
+
+    transition:.4s;
+}
+
+.info-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#22d3ee;
+
+    box-shadow:0 0 25px #22d3ee33;
+}
+
+.info-icon{
+
+    font-size:45px;
+
+    margin-bottom:12px;
+
+    animation:float 2s infinite ease-in-out;
+}
+
+@keyframes float{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+.info-card h2{
+
+    color:#22d3ee;
+
+    margin-bottom:10px;
+}
+
+.info-card p{
+
+    color:#94a3b8;
+
+    line-height:1.6;
+
+    font-size:14px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .calculator{
+        padding:20px;
+    }
+
+    button{
+        height:58px;
+        font-size:18px;
+    }
+
+    .info{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="stars"></div>
+
+
+<header>
+
+    <div class="logo">
+        COSMOX 🚀
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>SPACE CALCULATOR 🧮</h1>
+
+    <p>
+        Calculate distance, speed and time for your space journey
+    </p>
+
+</section>
+
+
+<!-- CALCULATOR -->
+
+<div class="calculator">
+
+    <div class="display" id="display">
+        0
+    </div>
+
+
+    <div class="buttons">
+
+        <button class="clear" onclick="clearDisplay()">
+            C
+        </button>
+
+        <button onclick="deleteLast()">
+            DEL
+        </button>
+
+        <button onclick="percentage()">
+            %
+        </button>
+
+        <button class="operator" onclick="press('/')">
+            ÷
+        </button>
+
+
+        <button onclick="press('7')">
+            7
+        </button>
+
+        <button onclick="press('8')">
+            8
+        </button>
+
+        <button onclick="press('9')">
+            9
+        </button>
+
+        <button class="operator" onclick="press('*')">
+            ×
+        </button>
+
+
+        <button onclick="press('4')">
+            4
+        </button>
+
+        <button onclick="press('5')">
+            5
+        </button>
+
+        <button onclick="press('6')">
+            6
+        </button>
+
+        <button class="operator" onclick="press('-')">
+            −
+        </button>
+
+
+        <button onclick="press('1')">
+            1
+        </button>
+
+        <button onclick="press('2')">
+            2
+        </button>
+
+        <button onclick="press('3')">
+            3
+        </button>
+
+        <button class="operator" onclick="press('+')">
+            +
+        </button>
+
+
+        <button class="zero" onclick="press('0')">
+            0
+        </button>
+
+        <button onclick="press('.')">
+            .
+        </button>
+
+        <button class="equal" onclick="calculate()">
+            =
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SPACE INFORMATION -->
+
+<section class="info">
+
+
+    <div class="info-card">
+
+        <div class="info-icon">
+            🌍
+        </div>
+
+        <h2>Earth</h2>
+
+        <p>
+            Use the calculator to perform
+            basic mathematical calculations
+            for your space missions.
+        </p>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <div class="info-icon">
+            🚀
+        </div>
+
+        <h2>Mission Math</h2>
+
+        <p>
+            Calculate values needed for
+            simple spacecraft and mission
+            planning.
+        </p>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <div class="info-icon">
+            🌌
+        </div>
+
+        <h2>Explore</h2>
+
+        <p>
+            Use your calculations while
+            exploring the COSMOX universe.
+        </p>
+
+    </div>
+
+</section>
+
+
+<script>
+
+let display =
+    document.getElementById("display");
+
+let current = "0";
+
+
+/* NUMBER / OPERATOR */
+
+function press(value){
+
+    if(current === "0" && value !== "."){
+        current = value;
+    }
+    else{
+        current += value;
+    }
+
+    display.innerText = current;
+}
+
+
+/* CLEAR */
+
+function clearDisplay(){
+
+    current = "0";
+
+    display.innerText = "0";
+}
+
+
+/* DELETE */
+
+function deleteLast(){
+
+    current =
+        current.slice(0,-1);
+
+    if(current === ""){
+        current = "0";
+    }
+
+    display.innerText = current;
+}
+
+
+/* CALCULATE */
+
+function calculate(){
+
+    try{
+
+        let result =
+            Function(
+                '"use strict";return (' +
+                current +
+                ')'
+            )();
+
+        current =
+            Number(result.toFixed(8)).toString();
+
+        display.innerText =
+            current;
+
+    }
+
+    catch{
+
+        display.innerText =
+            "ERROR";
+
+        current = "0";
+
+    }
+
+}
+
+
+/* PERCENTAGE */
+
+function percentage(){
+
+    try{
+
+        let result =
+            Function(
+                '"use strict";return (' +
+                current +
+                ')'
+            )();
+
+        current =
+            (result / 100).toString();
+
+        display.innerText =
+            current;
+
+    }
+
+    catch{
+
+        display.innerText =
+            "ERROR";
+
+        current = "0";
+
+    }
+
+}
+
+
+/* KEYBOARD SUPPORT */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        let key = event.key;
+
+        if(
+            "0123456789.+-*/".includes(key)
+        ){
+            press(key);
+        }
+
+        else if(key === "Enter"){
+            calculate();
+        }
+
+        else if(key === "Escape"){
+            clearDisplay();
+        }
+
+        else if(key === "Backspace"){
+            deleteLast();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

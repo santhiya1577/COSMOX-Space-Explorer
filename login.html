@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>COSMOX - Explorer Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+            background: #020617;
+        }
+
+        /* SPACE BACKGROUND */
+
+        .space {
+            min-height: 100vh;
+            position: relative;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    rgba(2, 6, 23, 0.45),
+                    rgba(2, 6, 23, 0.85)
+                ),
+                url("https://images-assets.nasa.gov/image/PIA12348/PIA12348~orig.jpg");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* STARS */
+
+        .stars {
+            position: absolute;
+            inset: 0;
+
+            background-image:
+                radial-gradient(2px 2px at 10% 20%, white, transparent),
+                radial-gradient(1px 1px at 25% 70%, white, transparent),
+                radial-gradient(2px 2px at 40% 30%, white, transparent),
+                radial-gradient(1px 1px at 60% 80%, white, transparent),
+                radial-gradient(2px 2px at 75% 20%, white, transparent),
+                radial-gradient(1px 1px at 90% 60%, white, transparent);
+
+            animation: starsMove 8s infinite alternate;
+        }
+
+        @keyframes starsMove {
+
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.08);
+            }
+        }
+
+        /* LOGIN CARD */
+
+        .login-card {
+            position: relative;
+            z-index: 5;
+
+            width: 400px;
+            max-width: 90%;
+
+            padding: 40px;
+
+            text-align: center;
+
+            border-radius: 25px;
+
+            border: 1px solid rgba(56, 189, 248, 0.5);
+
+            background: rgba(2, 6, 23, 0.75);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 0 30px rgba(56, 189, 248, 0.25),
+                inset 0 0 30px rgba(56, 189, 248, 0.05);
+
+            animation: cardAppear 1s ease;
+        }
+
+        @keyframes cardAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* LOGO */
+
+        .logo {
+            font-size: 42px;
+            font-weight: bold;
+
+            letter-spacing: 8px;
+
+            color: #38bdf8;
+
+            text-shadow:
+                0 0 10px #38bdf8,
+                0 0 25px #2563eb,
+                0 0 50px #1d4ed8;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            letter-spacing: 3px;
+        }
+
+        /* ASTRONAUT IMAGE */
+
+        .astronaut {
+            width: 90px;
+            height: 90px;
+
+            margin: 25px auto;
+
+            border-radius: 50%;
+
+            border: 2px solid #38bdf8;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 0 20px #38bdf8,
+                0 0 45px rgba(37, 99, 235, 0.5);
+        }
+
+        .astronaut img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        /* HEADING */
+
+        .login-title {
+            margin-bottom: 10px;
+        }
+
+        /* INPUT */
+
+        .input-group {
+            margin-top: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box input {
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border-radius: 12px;
+
+            border: 1px solid #334155;
+
+            outline: none;
+
+            background: rgba(15, 23, 42, 0.85);
+
+            color: white;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 15px rgba(56, 189, 248, 0.25);
+        }
+
+        /* PASSWORD BUTTON */
+
+        .show-password {
+            position: absolute;
+
+            right: 12px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            cursor: pointer;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+        /* LOGIN BUTTON */
+
+        .login-btn {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 14px;
+
+            border: 1px solid #38bdf8;
+
+            border-radius: 25px;
+
+            background: rgba(56, 189, 248, 0.15);
+
+            color: white;
+
+            font-size: 16px;
+
+            letter-spacing: 2px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #0284c7;
+
+            box-shadow:
+                0 0 20px #38bdf8,
+                0 0 40px rgba(37, 99, 235, 0.5);
+
+            transform: scale(1.03);
+        }
+
+        /* ERROR */
+
+        .error {
+            display: none;
+
+            margin-top: 12px;
+
+            color: #f87171;
+
+            font-size: 13px;
+        }
+
+        /* REGISTER */
+
+        .register {
+            margin-top: 20px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+        .register span {
+            color: #38bdf8;
+
+            cursor: pointer;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 500px) {
+
+            .login-card {
+                padding: 30px 22px;
+            }
+
+            .logo {
+                font-size: 32px;
+                letter-spacing: 5px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="space">
+
+    <div class="stars"></div>
+
+
+    <!-- LOGIN CARD -->
+
+    <div class="login-card">
+
+        <div class="logo">
+            COSMOX
+        </div>
+
+        <div class="subtitle">
+            ULTIMATE SPACE EXPLORER
+        </div>
+
+
+        <!-- ASTRONAUT -->
+
+        <div class="astronaut">
+
+            <img
+                src="https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~orig.jpg"
+                alt="Astronaut"
+            >
+
+        </div>
+
+
+        <h2 class="login-title">
+            Explorer Login
+        </h2>
+
+
+        <!-- EMAIL -->
+
+        <div class="input-group">
+
+            <label>
+                Explorer Email
+            </label>
+
+            <div class="input-box">
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="input-group">
+
+            <label>
+                Password
+            </label>
+
+            <div class="input-box">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                >
+
+                <span
+                    class="show-password"
+                    onclick="showPassword()"
+                >
+                    Show
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            class="error"
+            id="error"
+        >
+            Please enter your email and password.
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <button
+            class="login-btn"
+            onclick="login()"
+        >
+            🚀 LOGIN & ENTER
+        </button>
+
+
+        <!-- REGISTER -->
+
+        <div class="register">
+
+            New Explorer?
+
+            <span onclick="register()">
+                Create Account
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* SHOW / HIDE PASSWORD */
+
+    function showPassword() {
+
+        const password =
+            document.getElementById("password");
+
+        const button =
+            document.querySelector(".show-password");
+
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            button.innerText = "Hide";
+
+        } else {
+
+            password.type = "password";
+
+            button.innerText = "Show";
+
+        }
+    }
+
+
+    /* LOGIN */
+
+    function login() {
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value.trim();
+
+        const error =
+            document.getElementById("error");
+
+
+        if (email === "" || password === "") {
+
+            error.style.display = "block";
+
+            return;
+        }
+
+
+        error.style.display = "none";
+
+
+        /* STEP 2 */
+
+        window.location.href = "index.html";
+
+    }
+
+
+    /* REGISTER */
+
+    function register() {
+
+        alert(
+            "🚀 Registration page will be added in the next stage."
+        );
+
+    }
+
+</script>
+<script src="script.js"></script>
+</body>
+</html>

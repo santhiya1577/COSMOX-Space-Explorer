@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>COSMOX - Future Space</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#020617;color:#e2e8f0;overflow-x:hidden}
+#stars{position:fixed;inset:0;background:#020617;z-index:-2}.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:tw 2s infinite alternate}
+@keyframes tw{to{opacity:1;transform:scale(1.6)}from{opacity:.2}}
+header{height:72px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;background:rgba(2,6,23,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(34,211,238,.25);position:sticky;top:0;z-index:20}
+.logo{font-size:25px;font-weight:bold;letter-spacing:3px;color:#22d3ee}.back{padding:10px 18px;border:1px solid #22d3ee;border-radius:22px;background:#082f4933;color:#67e8f9;font-weight:bold;cursor:pointer}.back:hover{background:#22d3ee;color:#020617}
+.hero{min-height:530px;padding:70px 7%;display:flex;align-items:center;justify-content:space-between;gap:30px}.hero-text{max-width:560px}.tag{color:#67e8f9;letter-spacing:4px;font-size:13px;margin-bottom:15px}h1{font-size:clamp(48px,8vw,92px);line-height:.95}h1 span{color:#22d3ee}.hero p{margin-top:25px;color:#94a3b8;line-height:1.8;font-size:17px}
+.scene{width:470px;height:390px;position:relative;flex-shrink:0}.planet{position:absolute;width:180px;height:180px;border-radius:50%;right:75px;top:90px;background:radial-gradient(circle at 30% 28%,#c4b5fd,#7c3aed 25%,#312e81 60%,#09052a);box-shadow:0 0 35px #8b5cf6,0 0 90px #7c3aed80;animation:float 4s ease-in-out infinite}.ring{position:absolute;width:330px;height:92px;right:0;top:132px;border:4px solid #67e8f9b3;border-radius:50%;transform:rotate(-15deg);box-shadow:0 0 20px #22d3ee59;animation:ring 5s linear infinite}
+@keyframes float{50%{transform:translateY(-15px)}}@keyframes ring{to{transform:rotate(-15deg) rotateY(360deg)}}
+.ship{position:absolute;left:15px;top:90px;width:120px;height:42px;transform:rotate(-18deg);animation:ship 5s ease-in-out infinite}.body{position:absolute;left:22px;top:8px;width:72px;height:25px;background:linear-gradient(90deg,#64748b,#e2e8f0,#94a3b8);border-radius:50% 20% 20% 50%}.cockpit{position:absolute;right:0;top:5px;width:38px;height:28px;background:#67e8f9;border-radius:50%;box-shadow:0 0 18px #22d3ee}.wing1,.wing2{position:absolute;width:38px;height:13px;background:#475569;transform:skewX(-25deg)}.wing1{left:43px;top:0}.wing2{left:43px;top:29px;transform:skewX(25deg)}.flame{position:absolute;left:0;top:12px;width:35px;height:18px;background:linear-gradient(90deg,#f59e0b,#ef4444,transparent);clip-path:polygon(100% 50%,0 0,25% 50%,0 100%);animation:fl .18s infinite alternate}
+@keyframes fl{to{width:48px}}@keyframes ship{50%{left:210px;top:45px}}
+section{padding:65px 7%}.title{text-align:center;margin-bottom:42px}.title h2{font-size:38px}.title p{margin-top:10px;color:#64748b}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.card{padding:26px;border:1px solid #38bdf833;border-radius:18px;background:#0f172ab3;transition:.35s}.card:hover{transform:translateY(-8px);border-color:#22d3ee;box-shadow:0 0 30px #22d3ee29}.icon{font-size:35px;margin-bottom:15px}.card h3{color:#67e8f9;margin-bottom:10px}.card p{color:#94a3b8;line-height:1.7}
+.timeline{max-width:950px;margin:auto;position:relative}.timeline:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(#22d3ee,#8b5cf6,transparent)}.event{width:45%;padding:22px;border:1px solid #8b5cf659;background:#0f172ab8;border-radius:15px;margin-bottom:35px}.event:nth-child(even){margin-left:55%}.year{color:#a78bfa;font-weight:bold;margin-bottom:7px}.event h3{margin-bottom:8px}.event p{color:#94a3b8;line-height:1.6}footer{text-align:center;padding:35px;color:#64748b;border-top:1px solid #38bdf826}
+@media(max-width:850px){.hero{flex-direction:column;text-align:center}.scene{transform:scale(.8);margin-top:-30px}.cards{grid-template-columns:1fr}.timeline:before{left:8px}.event,.event:nth-child(even){width:calc(100% - 35px);margin-left:35px}}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<header><div class="logo">COSMOX 🚀</div><button class="back" onclick="location.href='dashboard.html'">← Back to Dashboard</button></header>
+<section class="hero">
+<div class="hero-text"><div class="tag">COSMOX • 2050 AND BEYOND</div><h1>FUTURE <span>SPACE</span></h1><p>Explore the next generation of space technology — advanced spacecraft, lunar cities, Mars missions, artificial habitats and intelligent exploration.</p></div>
+<div class="scene"><div class="ring"></div><div class="planet"></div><div class="ship"><div class="flame"></div><div class="body"></div><div class="cockpit"></div><div class="wing1"></div><div class="wing2"></div></div></div>
+</section>
+<section><div class="title"><h2>Future Technologies</h2><p>Ideas that could transform human space exploration</p></div><div class="cards">
+<div class="card"><div class="icon">🚀</div><h3>Reusable Starships</h3><p>Large reusable spacecraft could make journeys between Earth, the Moon and Mars more practical.</p></div>
+<div class="card"><div class="icon">🌕</div><h3>Lunar Cities</h3><p>Future habitats may support scientific research, energy production and long-term life on the Moon.</p></div>
+<div class="card"><div class="icon">🔴</div><h3>Mars Colonies</h3><p>Advanced life-support systems and robotics may help establish research bases on Mars.</p></div>
+<div class="card"><div class="icon">🤖</div><h3>AI Space Robots</h3><p>Autonomous robots can explore dangerous environments and assist astronauts with complex tasks.</p></div>
+<div class="card"><div class="icon">⚡</div><h3>Next-Gen Propulsion</h3><p>New propulsion concepts could reduce travel time and improve deep-space mission efficiency.</p></div>
+<div class="card"><div class="icon">🏙️</div><h3>Orbital Habitats</h3><p>Large space stations may become research centers and living environments beyond Earth.</p></div>
+</div></section>
+<section><div class="title"><h2>Future Space Timeline</h2><p>A vision of where exploration could go next</p></div><div class="timeline">
+<div class="event"><div class="year">2030+</div><h3>Advanced Lunar Missions</h3><p>More robotic and crewed missions expand scientific activity around the Moon.</p></div>
+<div class="event"><div class="year">2040+</div><h3>Permanent Lunar Habitats</h3><p>Long-duration habitats could support research and technology demonstrations.</p></div>
+<div class="event"><div class="year">2050+</div><h3>Mars Exploration</h3><p>Humans and autonomous systems could work together during extended Mars missions.</p></div>
+<div class="event"><div class="year">Beyond</div><h3>Deep Space Civilization</h3><p>Future generations may explore farther destinations using advanced spacecraft and habitats.</p></div>
+</div></section>
+<footer>COSMOX 🚀 | Future Space Explorer</footer>
+<script>const s=document.getElementById("stars");for(let i=0;i<170;i++){let x=document.createElement("span");x.className="star";x.style.left=Math.random()*100+"%";x.style.top=Math.random()*100+"%";x.style.animationDelay=Math.random()*3+"s";x.style.animationDuration=1.5+Math.random()*3+"s";s.appendChild(x)}</script>
+</body>
+</html>

@@ -1,0 +1,1340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>COSMOX - Space Gallery</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    background:#020617;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* ================= STARS ================= */
+
+.stars{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+
+    from{
+        opacity:.2;
+        transform:scale(.5);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1.4);
+    }
+
+}
+
+/* ================= HEADER ================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:20;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 35px;
+
+    background:rgba(2,6,23,.88);
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid rgba(0,255,255,.25);
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    color:#00ffff;
+
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 25px #00ffff;
+}
+
+.back{
+    text-decoration:none;
+    color:#00ffff;
+
+    border:1px solid #00ffff;
+
+    padding:9px 18px;
+
+    border-radius:25px;
+
+    transition:.3s;
+}
+
+.back:hover{
+    background:#00ffff;
+    color:#020617;
+
+    box-shadow:
+        0 0 15px #00ffff,
+        0 0 30px #00ffff;
+}
+
+/* ================= MAIN ================= */
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:45px 0;
+}
+
+/* ================= TITLE ================= */
+
+.hero{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.hero h1{
+    font-size:48px;
+    color:#00ffff;
+
+    text-shadow:
+        0 0 15px #00ffff,
+        0 0 35px #00ffff;
+
+    animation:titleGlow 2s infinite alternate;
+}
+
+@keyframes titleGlow{
+
+    from{
+        text-shadow:0 0 10px #00ffff;
+    }
+
+    to{
+        text-shadow:
+            0 0 20px #00ffff,
+            0 0 45px #00ffff;
+    }
+
+}
+
+.hero p{
+    margin-top:10px;
+    color:#a9bdd2;
+}
+
+/* ================= FILTER ================= */
+
+.filters{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:35px;
+}
+
+.filter{
+    padding:10px 18px;
+
+    border-radius:25px;
+
+    color:#00ffff;
+
+    border:1px solid rgba(0,255,255,.4);
+
+    background:rgba(15,23,42,.7);
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.filter:hover,
+.filter.active{
+    background:#00ffff;
+    color:#020617;
+
+    box-shadow:
+        0 0 15px #00ffff;
+}
+
+/* ================= GALLERY ================= */
+
+.gallery{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:22px;
+}
+
+/* ================= GALLERY CARD ================= */
+
+.gallery-card{
+
+    position:relative;
+
+    height:300px;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #07152f,
+            #020617
+        );
+
+    border:1px solid rgba(0,255,255,.3);
+
+    cursor:pointer;
+
+    transition:.5s;
+
+    animation:cardAppear .8s ease both;
+}
+
+@keyframes cardAppear{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(40px)
+            scale(.9);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+.gallery-card:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    border-color:#00ffff;
+
+    box-shadow:
+        0 0 25px rgba(0,255,255,.4),
+        0 0 60px rgba(0,255,255,.1);
+}
+
+/* ================= SPACE VISUAL ================= */
+
+.space-art{
+
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+}
+
+/* NEBULA */
+
+.nebula{
+
+    position:absolute;
+
+    width:260px;
+    height:260px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,255,255,.45),
+            rgba(88,28,135,.3),
+            transparent 70%
+        );
+
+    filter:blur(10px);
+
+    animation:nebulaMove 5s infinite alternate;
+}
+
+@keyframes nebulaMove{
+
+    from{
+        transform:scale(.8) rotate(0deg);
+    }
+
+    to{
+        transform:scale(1.2) rotate(180deg);
+    }
+
+}
+
+/* PLANET */
+
+.big-planet{
+
+    width:145px;
+    height:145px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #dffcff,
+            #1689a7 30%,
+            #073b66 65%,
+            #020617
+        );
+
+    box-shadow:
+        0 0 25px rgba(0,255,255,.6),
+        inset -20px -15px 30px rgba(0,0,0,.6);
+
+    animation:planetFloat 4s infinite ease-in-out;
+}
+
+@keyframes planetFloat{
+
+    0%,100%{
+        transform:translateY(0) rotate(0deg);
+    }
+
+    50%{
+        transform:translateY(-12px) rotate(8deg);
+    }
+
+}
+
+/* MARS */
+
+.mars{
+
+    width:145px;
+    height:145px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffb36b,
+            #d94b2b 35%,
+            #711d22 70%,
+            #17080b
+        );
+
+    box-shadow:
+        0 0 30px rgba(255,80,30,.5),
+        inset -20px -15px 30px rgba(0,0,0,.6);
+
+    animation:planetFloat 4s infinite ease-in-out;
+}
+
+/* JUPITER */
+
+.jupiter{
+
+    width:175px;
+    height:175px;
+
+    border-radius:50%;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #c9a47b 0px,
+            #f0d1a1 18px,
+            #9c6847 30px,
+            #e4c39a 45px
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,190,120,.35),
+        inset -25px -20px 35px rgba(0,0,0,.5);
+
+    animation:planetFloat 4s infinite ease-in-out;
+}
+
+/* SATURN */
+
+.saturn-wrap{
+    position:relative;
+
+    width:220px;
+    height:180px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.saturn{
+
+    width:120px;
+    height:120px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            #fff0b0,
+            #d4a85c 50%,
+            #73572d
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,210,100,.5);
+}
+
+.ring{
+
+    position:absolute;
+
+    width:220px;
+    height:60px;
+
+    border:9px solid rgba(238,205,125,.75);
+
+    border-radius:50%;
+
+    transform:rotate(-18deg);
+
+    box-shadow:
+        0 0 15px rgba(255,210,100,.5);
+
+    animation:ringRotate 4s infinite linear;
+}
+
+@keyframes ringRotate{
+
+    from{
+        transform:rotate(-18deg);
+    }
+
+    to{
+        transform:rotate(342deg);
+    }
+
+}
+
+/* MOON */
+
+.moon{
+
+    width:140px;
+    height:140px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            #ffffff,
+            #9ca3af 55%,
+            #374151
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,.35),
+        inset -20px -15px 25px rgba(0,0,0,.5);
+
+    animation:moonOrbit 5s infinite ease-in-out;
+}
+
+@keyframes moonOrbit{
+
+    0%,100%{
+        transform:translateX(-10px) rotate(0);
+    }
+
+    50%{
+        transform:translateX(10px) rotate(10deg);
+    }
+
+}
+
+/* GALAXY */
+
+.galaxy{
+
+    width:230px;
+    height:120px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            ellipse,
+            white 0%,
+            #00ffff 8%,
+            #7c3aed 22%,
+            #312e81 40%,
+            transparent 70%
+        );
+
+    filter:blur(2px);
+
+    transform:rotate(-20deg);
+
+    box-shadow:
+        0 0 35px #7c3aed,
+        0 0 60px rgba(0,255,255,.4);
+
+    animation:galaxySpin 6s infinite linear;
+}
+
+@keyframes galaxySpin{
+
+    from{
+        transform:rotate(-20deg) scale(.9);
+    }
+
+    to{
+        transform:rotate(340deg) scale(1.1);
+    }
+
+}
+
+/* BLACK HOLE */
+
+.blackhole{
+
+    width:120px;
+    height:120px;
+
+    border-radius:50%;
+
+    background:#000;
+
+    box-shadow:
+        0 0 20px #ff8a00,
+        0 0 40px #ff4500,
+        0 0 70px rgba(255,80,0,.5);
+
+    position:relative;
+    z-index:2;
+}
+
+.black-ring{
+
+    position:absolute;
+
+    width:230px;
+    height:75px;
+
+    border:13px solid #ff7a00;
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 25px #ff4500;
+
+    transform:rotate(-20deg);
+
+    animation:blackSpin 3s infinite linear;
+}
+
+@keyframes blackSpin{
+
+    from{
+        transform:rotate(-20deg);
+    }
+
+    to{
+        transform:rotate(340deg);
+    }
+
+}
+
+/* ROCKET */
+
+.rocket{
+
+    font-size:90px;
+
+    animation:
+        rocketFloat 2s infinite ease-in-out;
+}
+
+@keyframes rocketFloat{
+
+    0%,100%{
+        transform:translateY(10px) rotate(-5deg);
+    }
+
+    50%{
+        transform:translateY(-15px) rotate(5deg);
+    }
+
+}
+
+/* ================= CARD TEXT ================= */
+
+.card-info{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    padding:22px 18px;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(2,6,23,.98)
+        );
+}
+
+.card-info h2{
+
+    color:#00ffff;
+
+    font-size:21px;
+
+    margin-bottom:6px;
+}
+
+.card-info p{
+
+    color:#cbd5e1;
+
+    font-size:13px;
+}
+
+/* ================= LIGHT SWEEP ================= */
+
+.gallery-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:-100%;
+    left:-100%;
+
+    width:60%;
+    height:300%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.12),
+            transparent
+        );
+
+    transform:rotate(25deg);
+
+    transition:.7s;
+}
+
+.gallery-card:hover::after{
+
+    left:150%;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.85);
+
+    backdrop-filter:blur(8px);
+
+    z-index:50;
+
+    padding:20px;
+}
+
+.modal-box{
+
+    width:90%;
+    max-width:550px;
+
+    padding:35px;
+
+    text-align:center;
+
+    background:#07152f;
+
+    border:2px solid #00ffff;
+
+    border-radius:25px;
+
+    box-shadow:
+        0 0 30px #00ffff,
+        0 0 70px rgba(0,255,255,.2);
+
+    animation:modalPop .4s ease;
+}
+
+@keyframes modalPop{
+
+    from{
+        transform:scale(.6);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+
+}
+
+.modal-icon{
+
+    font-size:100px;
+
+    margin-bottom:15px;
+
+    animation:modalFloat 2s infinite ease-in-out;
+}
+
+@keyframes modalFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+}
+
+.modal-box h2{
+
+    color:#00ffff;
+
+    margin-bottom:10px;
+}
+
+.modal-box p{
+
+    color:#cbd5e1;
+
+    line-height:1.6;
+}
+
+.close{
+
+    margin-top:20px;
+
+    padding:10px 25px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#00ffff;
+
+    color:#020617;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.close:hover{
+
+    box-shadow:
+        0 0 15px #00ffff,
+        0 0 30px #00ffff;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
+
+    .gallery{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:15px 18px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .gallery{
+        grid-template-columns:1fr;
+    }
+
+    .gallery-card{
+        height:280px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- STARS -->
+
+<div class="stars" id="stars"></div>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        COSMOX 🚀
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="hero">
+
+        <h1>🌌 SPACE GALLERY</h1>
+
+        <p>
+            Explore the beautiful wonders of our cosmic universe.
+        </p>
+
+    </div>
+
+
+    <!-- FILTERS -->
+
+    <div class="filters">
+
+        <div class="filter active"
+             onclick="filterGallery('all',this)">
+            All
+        </div>
+
+        <div class="filter"
+             onclick="filterGallery('planet',this)">
+            🪐 Planets
+        </div>
+
+        <div class="filter"
+             onclick="filterGallery('deep',this)">
+            🌌 Deep Space
+        </div>
+
+        <div class="filter"
+             onclick="filterGallery('mission',this)">
+            🚀 Missions
+        </div>
+
+    </div>
+
+
+    <!-- GALLERY -->
+
+    <div class="gallery" id="gallery">
+
+
+        <!-- EARTH -->
+
+        <div class="gallery-card planet"
+             onclick="openModal('🌍','Earth','Our home planet, filled with oceans, continents and life.')">
+
+            <div class="space-art">
+
+                <div class="big-planet"></div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🌍 Earth</h2>
+
+                <p>Our beautiful home planet</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MARS -->
+
+        <div class="gallery-card planet"
+             onclick="openModal('🔴','Mars','The Red Planet and one of the most explored worlds beyond Earth.')">
+
+            <div class="space-art">
+
+                <div class="mars"></div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🔴 Mars</h2>
+
+                <p>The mysterious Red Planet</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- JUPITER -->
+
+        <div class="gallery-card planet"
+             onclick="openModal('🟤','Jupiter','The largest planet in our Solar System, famous for its Great Red Spot.')">
+
+            <div class="space-art">
+
+                <div class="jupiter"></div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🟤 Jupiter</h2>
+
+                <p>The giant planet</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SATURN -->
+
+        <div class="gallery-card planet"
+             onclick="openModal('🪐','Saturn','A gas giant famous for its spectacular ring system.')">
+
+            <div class="space-art">
+
+                <div class="saturn-wrap">
+
+                    <div class="ring"></div>
+
+                    <div class="saturn"></div>
+
+                </div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🪐 Saturn</h2>
+
+                <p>The ringed planet</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MOON -->
+
+        <div class="gallery-card planet"
+             onclick="openModal('🌕','Moon','Earth’s natural satellite and the first world beyond Earth visited by humans.')">
+
+            <div class="space-art">
+
+                <div class="moon"></div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🌕 Moon</h2>
+
+                <p>Earth's natural satellite</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- GALAXY -->
+
+        <div class="gallery-card deep"
+             onclick="openModal('🌌','Galaxy','A huge collection of stars, gas, dust and other cosmic objects.')">
+
+            <div class="space-art">
+
+                <div class="nebula"></div>
+
+                <div class="galaxy"></div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🌌 Galaxy</h2>
+
+                <p>Millions of stars in one cosmic system</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- BLACK HOLE -->
+
+        <div class="gallery-card deep"
+             onclick="openModal('🕳️','Black Hole','An extreme cosmic object with gravity strong enough that light cannot escape from inside its event horizon.')">
+
+            <div class="space-art">
+
+                <div class="black-ring"></div>
+
+                <div class="blackhole"></div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🕳️ Black Hole</h2>
+
+                <p>The mysterious cosmic giant</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- NEBULA -->
+
+        <div class="gallery-card deep"
+             onclick="openModal('✨','Nebula','A huge cloud of gas and dust where stars can form.')">
+
+            <div class="space-art">
+
+                <div class="nebula"></div>
+
+                <div class="rocket">✨</div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>✨ Nebula</h2>
+
+                <p>Cosmic clouds of gas and dust</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ROCKET -->
+
+        <div class="gallery-card mission"
+             onclick="openModal('🚀','Rocket Mission','Launch vehicles carry spacecraft and scientific instruments into space.')">
+
+            <div class="space-art">
+
+                <div class="rocket">
+                    🚀
+                </div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🚀 Space Mission</h2>
+
+                <p>Journey beyond Earth</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ASTRONAUT -->
+
+        <div class="gallery-card mission"
+             onclick="openModal('👨‍🚀','Astronaut','Astronauts travel into space to conduct scientific research and exploration.')">
+
+            <div class="space-art">
+
+                <div class="rocket">
+                    👨‍🚀
+                </div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>👨‍🚀 Astronaut</h2>
+
+                <p>Human explorers of space</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SPACECRAFT -->
+
+        <div class="gallery-card mission"
+             onclick="openModal('🛰️','Spacecraft','Spacecraft are vehicles designed to travel through space and perform missions.')">
+
+            <div class="space-art">
+
+                <div class="rocket">
+                    🛰️
+                </div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>🛰️ Spacecraft</h2>
+
+                <p>Vehicles exploring the universe</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- COSMIC -->
+
+        <div class="gallery-card deep"
+             onclick="openModal('☄️','Cosmic Journey','The universe contains countless stars, planets, galaxies and other fascinating objects.')">
+
+            <div class="space-art">
+
+                <div class="nebula"></div>
+
+                <div class="rocket">
+                    ☄️
+                </div>
+
+            </div>
+
+            <div class="card-info">
+
+                <h2>☄️ Cosmic Journey</h2>
+
+                <p>Explore the unknown</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-icon" id="modalIcon">
+            🌌
+        </div>
+
+        <h2 id="modalTitle">
+            Space
+        </h2>
+
+        <p id="modalText">
+            Explore the universe.
+        </p>
+
+        <button class="close"
+                onclick="closeModal()">
+            ✕ Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   STARS
+========================= */
+
+const stars =
+document.getElementById("stars");
+
+for(let i=0;i<150;i++){
+
+    const star =
+    document.createElement("div");
+
+    star.className="star";
+
+    star.style.left =
+        Math.random()*100+"%";
+
+    star.style.top =
+        Math.random()*100+"%";
+
+    star.style.animationDelay =
+        Math.random()*2+"s";
+
+    stars.appendChild(star);
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+function filterGallery(category,button){
+
+    const cards =
+        document.querySelectorAll(".gallery-card");
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+    button.classList.add("active");
+
+
+    cards.forEach(card=>{
+
+        if(category==="all"){
+
+            card.style.display="block";
+
+        }
+        else if(card.classList.contains(category)){
+
+            card.style.display="block";
+
+        }
+        else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(icon,title,text){
+
+    document.getElementById("modalIcon")
+        .textContent=icon;
+
+    document.getElementById("modalTitle")
+        .textContent=title;
+
+    document.getElementById("modalText")
+        .textContent=text;
+
+    document.getElementById("modal")
+        .style.display="flex";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById("modal")
+        .style.display="none";
+
+}
+
+
+/* CLOSE WHEN CLICK OUTSIDE */
+
+document
+.getElementById("modal")
+.addEventListener("click",function(e){
+
+    if(e.target===this){
+        closeModal();
+    }
+
+});
+
+</script>
+
+</body>
+</html>

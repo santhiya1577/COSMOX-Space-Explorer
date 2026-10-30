@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>COSMOX - Contact</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#020617;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* STAR BACKGROUND */
+
+.space{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-2;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{
+        opacity:.2;
+        transform:scale(.6);
+    }
+    to{
+        opacity:1;
+        transform:scale(1.3);
+    }
+}
+
+/* HEADER */
+
+header{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+    background:rgba(2,6,23,.75);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(0,255,255,.15);
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    color:#00ffff;
+    text-shadow:0 0 15px #00ffff;
+}
+
+.back{
+    text-decoration:none;
+    color:#00ffff;
+    border:1px solid #00ffff;
+    padding:10px 18px;
+    border-radius:20px;
+    transition:.3s;
+}
+
+.back:hover{
+    background:#00ffff;
+    color:#020617;
+    box-shadow:0 0 20px #00ffff;
+}
+
+/* MAIN */
+
+.container{
+    width:90%;
+    max-width:1100px;
+    margin:50px auto;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:45px;
+    animation:titleFloat 3s infinite ease-in-out;
+}
+
+.title h1{
+    font-size:48px;
+    color:#00ffff;
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 30px #00ffff;
+}
+
+.title p{
+    color:#a5f3fc;
+    margin-top:12px;
+    font-size:17px;
+}
+
+@keyframes titleFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+/* CONTACT AREA */
+
+.contact-box{
+    display:grid;
+    grid-template-columns:1fr 1.3fr;
+    gap:30px;
+}
+
+/* INFO */
+
+.info{
+    padding:30px;
+    border-radius:25px;
+    background:rgba(15,23,42,.7);
+    border:1px solid rgba(0,255,255,.25);
+    box-shadow:0 0 25px rgba(0,255,255,.08);
+    animation:slideLeft 1s ease;
+}
+
+@keyframes slideLeft{
+    from{
+        opacity:0;
+        transform:translateX(-50px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+.info h2{
+    color:#00ffff;
+    margin-bottom:15px;
+}
+
+.info p{
+    color:#cbd5e1;
+    line-height:1.7;
+}
+
+.info-card{
+    margin-top:20px;
+    padding:18px;
+    border-radius:15px;
+    background:rgba(2,6,23,.7);
+    border:1px solid rgba(0,255,255,.15);
+    transition:.3s;
+}
+
+.info-card:hover{
+    transform:translateX(8px);
+    border-color:#00ffff;
+    box-shadow:0 0 18px rgba(0,255,255,.3);
+}
+
+.icon{
+    font-size:25px;
+    margin-right:10px;
+}
+
+.info-card h3{
+    display:inline;
+    color:#67e8f9;
+}
+
+.info-card p{
+    margin-top:8px;
+}
+
+/* FORM */
+
+.form-box{
+    padding:30px;
+    border-radius:25px;
+    background:rgba(15,23,42,.7);
+    border:1px solid rgba(0,255,255,.25);
+    box-shadow:0 0 25px rgba(0,255,255,.08);
+    animation:slideRight 1s ease;
+}
+
+@keyframes slideRight{
+    from{
+        opacity:0;
+        transform:translateX(50px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+.form-box h2{
+    color:#00ffff;
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:7px;
+    color:#a5f3fc;
+}
+
+.input-group input,
+.input-group textarea{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid rgba(0,255,255,.3);
+    background:#020617;
+    color:white;
+    outline:none;
+    transition:.3s;
+}
+
+.input-group input:focus,
+.input-group textarea:focus{
+    border-color:#00ffff;
+    box-shadow:0 0 15px rgba(0,255,255,.25);
+}
+
+textarea{
+    resize:none;
+    height:120px;
+}
+
+.send-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:15px;
+    background:#00ffff;
+    color:#020617;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.send-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:
+        0 0 15px #00ffff,
+        0 0 35px #00ffff;
+}
+
+/* SOCIAL */
+
+.social{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.social-card{
+    width:180px;
+    padding:20px;
+    text-align:center;
+    border-radius:18px;
+    background:rgba(15,23,42,.7);
+    border:1px solid rgba(0,255,255,.2);
+    transition:.4s;
+}
+
+.social-card:hover{
+    transform:translateY(-10px) rotateX(5deg);
+    border-color:#00ffff;
+    box-shadow:0 0 25px rgba(0,255,255,.35);
+}
+
+.social-card div{
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+.social-card h3{
+    color:#67e8f9;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    margin-top:50px;
+    padding:25px;
+    color:#64748b;
+    border-top:1px solid rgba(0,255,255,.1);
+}
+
+/* SUCCESS MESSAGE */
+
+#message{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    text-align:center;
+    background:rgba(0,255,255,.1);
+    border:1px solid #00ffff;
+    color:#67e8f9;
+    animation:pop .4s ease;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:750px){
+
+    header{
+        padding:0 4%;
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+    .back{
+        padding:8px 12px;
+        font-size:14px;
+    }
+
+    .title h1{
+        font-size:36px;
+    }
+
+    .contact-box{
+        grid-template-columns:1fr;
+    }
+
+    .info,
+    .form-box{
+        padding:22px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- STAR FIELD -->
+
+<div class="space" id="space"></div>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        COSMOX 🚀
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+    <div class="title">
+
+        <h1>CONTACT COSMOX</h1>
+
+        <p>
+            Have a question? Send a message to our Space Explorer team 🌌
+        </p>
+
+    </div>
+
+
+    <div class="contact-box">
+
+        <!-- INFORMATION -->
+
+        <div class="info">
+
+            <h2>📡 Mission Control</h2>
+
+            <p>
+                Welcome to COSMOX Mission Control.
+                Connect with us and continue your journey through
+                the universe.
+            </p>
+
+
+            <div class="info-card">
+
+                <span class="icon">📧</span>
+
+                <h3>Email</h3>
+
+                <p>
+                    cosmox@space.com
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <span class="icon">📍</span>
+
+                <h3>Location</h3>
+
+                <p>
+                    Earth • Solar System • Milky Way
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <span class="icon">🛰️</span>
+
+                <h3>Mission Support</h3>
+
+                <p>
+                    Available 24/7 for Space Explorers.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTACT FORM -->
+
+        <div class="form-box">
+
+            <h2>🚀 Send a Message</h2>
+
+            <form id="contactForm">
+
+                <div class="input-group">
+
+                    <label>Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Subject</label>
+
+                    <input
+                        type="text"
+                        id="subject"
+                        placeholder="Enter subject"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Message</label>
+
+                    <textarea
+                        id="msg"
+                        placeholder="Write your message..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button type="submit" class="send-btn">
+                    🚀 Launch Message
+                </button>
+
+                <div id="message">
+                    ✅ Message launched successfully!
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- SOCIAL -->
+
+    <div class="social">
+
+        <div class="social-card">
+
+            <div>🌌</div>
+
+            <h3>Explore</h3>
+
+            <p>Discover Space</p>
+
+        </div>
+
+
+        <div class="social-card">
+
+            <div>🚀</div>
+
+            <h3>Mission</h3>
+
+            <p>Explore Missions</p>
+
+        </div>
+
+
+        <div class="social-card">
+
+            <div>🪐</div>
+
+            <h3>Planets</h3>
+
+            <p>Discover Worlds</p>
+
+        </div>
+
+
+        <div class="social-card">
+
+            <div>👨‍🚀</div>
+
+            <h3>Astronauts</h3>
+
+            <p>Meet Explorers</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    © 2026 COSMOX 🚀 | Explore Beyond Imagination
+
+</footer>
+
+
+<script>
+
+/* STAR GENERATOR */
+
+const space = document.getElementById("space");
+
+for(let i = 0; i < 120; i++){
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+
+    const size = Math.random() * 3 + 1;
+
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+
+    star.style.animationDelay =
+        Math.random() * 3 + "s";
+
+    space.appendChild(star);
+}
+
+
+/* CONTACT FORM */
+
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+
+    document.getElementById("message").style.display = "block";
+
+    document.getElementById("message").innerHTML =
+        "🚀 Message from " + name +
+        " launched successfully! 🌌";
+
+    form.reset();
+
+});
+
+</script>
+
+</body>
+</html>

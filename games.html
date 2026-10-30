@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COSMOX - Planet Memory Game</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    min-height:100vh;
+    color:white;
+    background:#020617;
+    overflow-x:hidden;
+}
+
+/* STARS */
+.stars{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.2; transform:scale(.6);}
+    to{opacity:1; transform:scale(1.3);}
+}
+
+/* HEADER */
+header{
+    padding:18px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(0,255,255,.25);
+    background:rgba(2,6,23,.8);
+    backdrop-filter:blur(10px);
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    color:#00ffff;
+    font-size:25px;
+    font-weight:bold;
+    text-shadow:0 0 15px #00ffff;
+}
+
+.back{
+    text-decoration:none;
+    color:#00ffff;
+    border:1px solid #00ffff;
+    padding:9px 16px;
+    border-radius:20px;
+    transition:.3s;
+}
+
+.back:hover{
+    background:#00ffff;
+    color:#020617;
+    box-shadow:0 0 20px #00ffff;
+}
+
+/* MAIN */
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:35px 20px;
+    text-align:center;
+}
+
+h1{
+    font-size:42px;
+    color:#00ffff;
+    text-shadow:0 0 20px #00ffff;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#b8c7d9;
+    margin-bottom:25px;
+}
+
+/* INFO */
+.info{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.box{
+    min-width:120px;
+    padding:13px 20px;
+    border:1px solid rgba(0,255,255,.4);
+    border-radius:15px;
+    background:rgba(15,23,42,.75);
+    box-shadow:0 0 15px rgba(0,255,255,.08);
+}
+
+.box span{
+    display:block;
+    color:#00ffff;
+    font-size:13px;
+}
+
+.box strong{
+    font-size:23px;
+}
+
+/* GAME BOARD */
+.game-board{
+    margin:25px auto;
+    display:grid;
+    gap:15px;
+    justify-content:center;
+    max-width:800px;
+}
+
+/* LEVEL CARD SIZES */
+.level1{
+    grid-template-columns:repeat(4,120px);
+}
+
+.level2{
+    grid-template-columns:repeat(4,120px);
+}
+
+.level3{
+    grid-template-columns:repeat(6,105px);
+}
+
+/* CARD */
+.card{
+    width:120px;
+    height:120px;
+    perspective:800px;
+    cursor:pointer;
+}
+
+.level3 .card{
+    width:105px;
+    height:105px;
+}
+
+.card-inner{
+    width:100%;
+    height:100%;
+    position:relative;
+    transition:transform .55s;
+    transform-style:preserve-3d;
+}
+
+.card.flipped .card-inner,
+.card.matched .card-inner{
+    transform:rotateY(180deg);
+}
+
+.card-front,
+.card-back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    backface-visibility:hidden;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.card-front{
+    background:linear-gradient(135deg,#07152f,#10295a);
+    border:2px solid rgba(0,255,255,.45);
+    box-shadow:0 0 15px rgba(0,255,255,.12);
+    font-size:38px;
+}
+
+.card-front:hover{
+    box-shadow:0 0 25px #00ffff;
+    transform:scale(1.03);
+}
+
+.card-back{
+    transform:rotateY(180deg);
+    background:rgba(10,20,45,.95);
+    border:2px solid #00ffff;
+    box-shadow:0 0 20px rgba(0,255,255,.4);
+    flex-direction:column;
+}
+
+.planet{
+    font-size:55px;
+    line-height:1;
+}
+
+.planet-name{
+    font-size:12px;
+    color:#00ffff;
+    margin-top:5px;
+}
+
+.matched .card-back{
+    animation:matchGlow .7s infinite alternate;
+}
+
+@keyframes matchGlow{
+    from{
+        box-shadow:0 0 10px #00ffff;
+    }
+    to{
+        box-shadow:0 0 35px #00ffff, 0 0 60px rgba(0,255,255,.5);
+    }
+}
+
+/* BUTTONS */
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-top:25px;
+    flex-wrap:wrap;
+}
+
+button{
+    padding:12px 22px;
+    border:none;
+    border-radius:25px;
+    background:#00ffff;
+    color:#020617;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 20px #00ffff;
+}
+
+/* MESSAGE */
+.message{
+    min-height:30px;
+    margin-top:18px;
+    font-size:18px;
+    color:#00ffff;
+}
+
+/* LEVEL POPUP */
+.level-screen{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(2,6,23,.88);
+    z-index:20;
+}
+
+.level-box{
+    text-align:center;
+    padding:45px;
+    border:2px solid #00ffff;
+    border-radius:25px;
+    background:#07152f;
+    box-shadow:0 0 40px #00ffff;
+    animation:pop .5s ease;
+}
+
+.level-box h2{
+    font-size:42px;
+    color:#00ffff;
+    text-shadow:0 0 15px #00ffff;
+}
+
+.level-box p{
+    margin-top:12px;
+    color:#d6e5f5;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(.5);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* WIN POPUP */
+.win-screen{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(2,6,23,.9);
+    z-index:30;
+}
+
+.win-box{
+    padding:45px;
+    text-align:center;
+    border:2px solid #00ffff;
+    border-radius:25px;
+    background:#07152f;
+    box-shadow:0 0 50px #00ffff;
+    animation:pop .5s ease;
+}
+
+.win-box h2{
+    font-size:40px;
+    color:#00ffff;
+}
+
+.win-box p{
+    margin:15px 0;
+    font-size:20px;
+}
+
+/* RESPONSIVE */
+@media(max-width:650px){
+
+    h1{
+        font-size:30px;
+    }
+
+    .level1,
+    .level2{
+        grid-template-columns:repeat(4,75px);
+        gap:9px;
+    }
+
+    .level3{
+        grid-template-columns:repeat(4,70px);
+        gap:8px;
+    }
+
+    .card{
+        width:75px;
+        height:75px;
+    }
+
+    .level3 .card{
+        width:70px;
+        height:70px;
+    }
+
+    .card-front{
+        font-size:25px;
+    }
+
+    .planet{
+        font-size:34px;
+    }
+
+    .planet-name{
+        font-size:8px;
+    }
+
+    header{
+        padding:15px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<header>
+    <div class="logo">COSMOX 🚀</div>
+    <a href="dashboard.html" class="back">← Dashboard</a>
+</header>
+
+<div class="container">
+
+    <h1>🪐 PLANET MEMORY</h1>
+
+    <p class="subtitle">
+        Find the same planet cards and test your space memory!
+    </p>
+
+    <div class="info">
+
+        <div class="box">
+            <span>LEVEL</span>
+            <strong id="level">1</strong>
+        </div>
+
+        <div class="box">
+            <span>SCORE</span>
+            <strong id="score">0</strong>
+        </div>
+
+        <div class="box">
+            <span>MOVES</span>
+            <strong id="moves">0</strong>
+        </div>
+
+        <div class="box">
+            <span>TIME</span>
+            <strong id="time">60</strong>
+        </div>
+
+    </div>
+
+    <div id="board" class="game-board level1"></div>
+
+    <div class="message" id="message">
+        Find the matching planets! 🌌
+    </div>
+
+    <div class="buttons">
+        <button onclick="restartGame()">🔄 Restart</button>
+    </div>
+
+</div>
+
+<!-- LEVEL POPUP -->
+<div class="level-screen" id="levelScreen">
+    <div class="level-box">
+        <h2 id="levelTitle">LEVEL 1</h2>
+        <p id="levelText">Get ready!</p>
+    </div>
+</div>
+
+<!-- WIN POPUP -->
+<div class="win-screen" id="winScreen">
+    <div class="win-box">
+        <h2>🏆 GALAXY MASTER!</h2>
+        <p>You completed all 3 levels!</p>
+        <p>Final Score: <strong id="finalScore">0</strong></p>
+
+        <button onclick="restartGame()">
+            🚀 Play Again
+        </button>
+
+        <button onclick="location.href='dashboard.html'">
+            🏠 Dashboard
+        </button>
+    </div>
+</div>
+
+<script>
+
+/* =========================
+   STARS
+========================= */
+
+const stars = document.getElementById("stars");
+
+for(let i=0;i<120;i++){
+
+    let star = document.createElement("div");
+
+    star.className = "star";
+
+    star.style.left = Math.random()*100 + "%";
+    star.style.top = Math.random()*100 + "%";
+
+    star.style.animationDelay =
+        Math.random()*2 + "s";
+
+    stars.appendChild(star);
+}
+
+
+/* =========================
+   PLANETS
+========================= */
+
+const planets = [
+
+    {
+        name:"Mercury",
+        icon:"☿️"
+    },
+
+    {
+        name:"Venus",
+        icon:"🟠"
+    },
+
+    {
+        name:"Earth",
+        icon:"🌍"
+    },
+
+    {
+        name:"Mars",
+        icon:"🔴"
+    },
+
+    {
+        name:"Jupiter",
+        icon:"🟤"
+    },
+
+    {
+        name:"Saturn",
+        icon:"🪐"
+    },
+
+    {
+        name:"Uranus",
+        icon:"🔵"
+    },
+
+    {
+        name:"Neptune",
+        icon:"🔷"
+    }
+
+];
+
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let level = 1;
+
+let score = 0;
+
+let moves = 0;
+
+let timeLeft = 60;
+
+let timer;
+
+let firstCard = null;
+
+let secondCard = null;
+
+let lockBoard = false;
+
+let matchedPairs = 0;
+
+
+/* =========================
+   LEVEL SETTINGS
+========================= */
+
+const levelSettings = {
+
+    1:{
+        pairs:4,
+        time:60
+    },
+
+    2:{
+        pairs:6,
+        time:50
+    },
+
+    3:{
+        pairs:8,
+        time:45
+    }
+
+};
+
+
+/* =========================
+   START GAME
+========================= */
+
+function startGame(){
+
+    clearInterval(timer);
+
+    firstCard = null;
+    secondCard = null;
+
+    lockBoard = false;
+
+    matchedPairs = 0;
+
+    moves = 0;
+
+    timeLeft = levelSettings[level].time;
+
+    document.getElementById("level").textContent = level;
+
+    document.getElementById("moves").textContent = moves;
+
+    document.getElementById("time").textContent = timeLeft;
+
+    createBoard();
+
+    startTimer();
+
+}
+
+
+/* =========================
+   CREATE BOARD
+========================= */
+
+function createBoard(){
+
+    const board = document.getElementById("board");
+
+    board.innerHTML = "";
+
+    board.className =
+        "game-board level" + level;
+
+    let count =
+        levelSettings[level].pairs;
+
+    let selectedPlanets =
+        planets.slice(0,count);
+
+    let cards =
+        [...selectedPlanets,...selectedPlanets];
+
+    cards.sort(() => Math.random() - 0.5);
+
+    cards.forEach((planet,index)=>{
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.dataset.name =
+            planet.name;
+
+        card.innerHTML = `
+
+            <div class="card-inner">
+
+                <div class="card-front">
+                    🚀
+                </div>
+
+                <div class="card-back">
+
+                    <div class="planet">
+                        ${planet.icon}
+                    </div>
+
+                    <div class="planet-name">
+                        ${planet.name}
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+        card.addEventListener(
+            "click",
+            flipCard
+        );
+
+        board.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================
+   FLIP CARD
+========================= */
+
+function flipCard(){
+
+    if(lockBoard) return;
+
+    if(this === firstCard) return;
+
+    if(this.classList.contains("matched")) return;
+
+    this.classList.add("flipped");
+
+    if(!firstCard){
+
+        firstCard = this;
+
+        return;
+    }
+
+    secondCard = this;
+
+    moves++;
+
+    document.getElementById("moves")
+        .textContent = moves;
+
+    checkMatch();
+
+}
+
+
+/* =========================
+   CHECK MATCH
+========================= */
+
+function checkMatch(){
+
+    const isMatch =
+        firstCard.dataset.name ===
+        secondCard.dataset.name;
+
+    if(isMatch){
+
+        matchCards();
+
+    }else{
+
+        unflipCards();
+
+    }
+
+}
+
+
+/* =========================
+   MATCH
+========================= */
+
+function matchCards(){
+
+    firstCard.classList.add("matched");
+
+    secondCard.classList.add("matched");
+
+    score += 10;
+
+    document.getElementById("score")
+        .textContent = score;
+
+    matchedPairs++;
+
+    document.getElementById("message")
+        .textContent =
+        "✨ MATCH! +10 points 🚀";
+
+    firstCard = null;
+
+    secondCard = null;
+
+    if(
+        matchedPairs ===
+        levelSettings[level].pairs
+    ){
+
+        clearInterval(timer);
+
+        setTimeout(levelComplete,700);
+
+    }
+
+}
+
+
+/* =========================
+   NOT MATCH
+========================= */
+
+function unflipCards(){
+
+    lockBoard = true;
+
+    document.getElementById("message")
+        .textContent =
+        "❌ Not the same planet!";
+
+    setTimeout(()=>{
+
+        firstCard.classList.remove("flipped");
+
+        secondCard.classList.remove("flipped");
+
+        firstCard = null;
+
+        secondCard = null;
+
+        lockBoard = false;
+
+        document.getElementById("message")
+            .textContent =
+            "Find the matching planets! 🌌";
+
+    },900);
+
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+function startTimer(){
+
+    timer = setInterval(()=>{
+
+        timeLeft--;
+
+        document.getElementById("time")
+            .textContent = timeLeft;
+
+        if(timeLeft <= 0){
+
+            clearInterval(timer);
+
+            gameOver();
+
+        }
+
+    },1000);
+
+}
+
+
+/* =========================
+   LEVEL COMPLETE
+========================= */
+
+function levelComplete(){
+
+    if(level < 3){
+
+        level++;
+
+        document.getElementById("levelTitle")
+            .textContent =
+            "🚀 LEVEL " + level;
+
+        document.getElementById("levelText")
+            .textContent =
+            "Amazing! Get ready for the next planet challenge!";
+
+        document.getElementById("levelScreen")
+            .style.display = "flex";
+
+        setTimeout(()=>{
+
+            document.getElementById("levelScreen")
+                .style.display = "none";
+
+            startGame();
+
+        },1600);
+
+    }else{
+
+        clearInterval(timer);
+
+        document.getElementById("finalScore")
+            .textContent = score;
+
+        document.getElementById("winScreen")
+            .style.display = "flex";
+
+    }
+
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+function gameOver(){
+
+    lockBoard = true;
+
+    document.getElementById("message")
+        .textContent =
+        "⏰ Time Over! Try again!";
+
+    setTimeout(()=>{
+
+        alert(
+            "🌌 TIME OVER!\n\nScore: " +
+            score +
+            "\nLevel: " +
+            level
+        );
+
+    },200);
+
+}
+
+
+/* =========================
+   RESTART
+========================= */
+
+function restartGame(){
+
+    document.getElementById("winScreen")
+        .style.display = "none";
+
+    document.getElementById("levelScreen")
+        .style.display = "none";
+
+    level = 1;
+
+    score = 0;
+
+    moves = 0;
+
+    document.getElementById("score")
+        .textContent = 0;
+
+    startGame();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+startGame();
+
+</script>
+
+</body>
+</html>

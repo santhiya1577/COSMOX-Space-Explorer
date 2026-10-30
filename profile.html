@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>COSMOX - Explorer Profile</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            color: white;
+
+            background: #020617;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* SPACE BACKGROUND */
+
+        .space {
+
+            min-height: 100vh;
+
+            padding: 25px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+
+                linear-gradient(
+                    rgba(2, 6, 23, 0.55),
+                    rgba(2, 6, 23, 0.9)
+                ),
+
+                url("https://images-assets.nasa.gov/image/PIA12348/PIA12348~orig.jpg");
+
+            background-size: cover;
+
+            background-position: center;
+
+        }
+
+
+        /* STARS */
+
+        .stars {
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            background-image:
+
+                radial-gradient(
+                    2px 2px at 10% 20%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    1px 1px at 25% 70%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    2px 2px at 45% 30%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    1px 1px at 65% 80%,
+                    white,
+                    transparent
+                ),
+
+                radial-gradient(
+                    2px 2px at 80% 25%,
+                    white,
+                    transparent
+                );
+
+            animation: starsMove 8s infinite alternate;
+
+        }
+
+
+        @keyframes starsMove {
+
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.08);
+            }
+
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            position: relative;
+
+            z-index: 5;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 15px 20px;
+
+            border:
+
+                1px solid
+                rgba(56, 189, 248, 0.4);
+
+            border-radius: 18px;
+
+            background:
+
+                rgba(15, 23, 42, 0.7);
+
+            backdrop-filter: blur(15px);
+
+        }
+
+
+        .logo {
+
+            font-size: 27px;
+
+            font-weight: bold;
+
+            letter-spacing: 5px;
+
+            color: #38bdf8;
+
+            text-shadow:
+
+                0 0 10px #38bdf8,
+
+                0 0 25px #2563eb;
+
+        }
+
+
+        .logout {
+
+            padding: 9px 20px;
+
+            border:
+
+                1px solid #38bdf8;
+
+            border-radius: 20px;
+
+            background:
+
+                rgba(56, 189, 248, 0.1);
+
+            color: white;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+
+        .logout:hover {
+
+            background: #0284c7;
+
+            box-shadow:
+
+                0 0 20px #38bdf8;
+
+        }
+
+
+        /* PROFILE */
+
+        .profile-container {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 1000px;
+
+            margin: 40px auto;
+
+        }
+
+
+        .profile-title {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .profile-title h1 {
+
+            font-size: 40px;
+
+            text-shadow:
+
+                0 0 10px #38bdf8,
+
+                0 0 30px #2563eb;
+
+        }
+
+
+        .profile-title p {
+
+            margin-top: 8px;
+
+            color: #94a3b8;
+
+        }
+
+
+        /* MAIN CARD */
+
+        .profile-card {
+
+            display: grid;
+
+            grid-template-columns: 300px 1fr;
+
+            gap: 30px;
+
+            padding: 30px;
+
+            border:
+
+                1px solid
+                rgba(56, 189, 248, 0.35);
+
+            border-radius: 25px;
+
+            background:
+
+                rgba(15, 23, 42, 0.72);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+
+                0 0 35px
+                rgba(56, 189, 248, 0.12);
+
+        }
+
+
+        /* AVATAR */
+
+        .avatar-section {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+        }
+
+
+        .avatar {
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            overflow: hidden;
+
+            border:
+
+                3px solid #38bdf8;
+
+            box-shadow:
+
+                0 0 25px #38bdf8,
+
+                0 0 60px
+                rgba(37, 99, 235, 0.5);
+
+            animation: float 4s ease-in-out infinite;
+
+        }
+
+
+        .avatar img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+        }
+
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+
+        }
+
+
+        .explorer-name {
+
+            margin-top: 20px;
+
+            font-size: 26px;
+
+            color: #38bdf8;
+
+        }
+
+
+        .explorer-id {
+
+            margin-top: 6px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+        }
+
+
+        /* DETAILS */
+
+        .details {
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+        }
+
+
+        .detail-row {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .detail-box {
+
+            padding: 18px;
+
+            border:
+
+                1px solid #334155;
+
+            border-radius: 15px;
+
+            background:
+
+                rgba(2, 6, 23, 0.55);
+
+            transition: 0.3s;
+
+        }
+
+
+        .detail-box:hover {
+
+            border-color: #38bdf8;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+
+                0 0 15px
+                rgba(56, 189, 248, 0.15);
+
+        }
+
+
+        .detail-label {
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+        }
+
+
+        .detail-value {
+
+            margin-top: 7px;
+
+            font-size: 18px;
+
+        }
+
+
+        /* XP */
+
+        .xp-section {
+
+            margin-top: 10px;
+
+        }
+
+
+        .xp-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #cbd5e1;
+
+            font-size: 13px;
+
+        }
+
+
+        .xp-bar {
+
+            width: 100%;
+
+            height: 9px;
+
+            margin-top: 9px;
+
+            border-radius: 20px;
+
+            background: #1e293b;
+
+            overflow: hidden;
+
+        }
+
+
+        .xp-progress {
+
+            width: 68%;
+
+            height: 100%;
+
+            background: #38bdf8;
+
+            box-shadow:
+
+                0 0 12px #38bdf8;
+
+        }
+
+
+        /* BADGES */
+
+        .badges {
+
+            margin-top: 25px;
+
+        }
+
+
+        .badges h3 {
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .badge-list {
+
+            display: flex;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .badge {
+
+            width: 70px;
+
+            height: 70px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 32px;
+
+            border:
+
+                1px solid #334155;
+
+            border-radius: 15px;
+
+            background:
+
+                rgba(2, 6, 23, 0.6);
+
+            transition: 0.3s;
+
+        }
+
+
+        .badge:hover {
+
+            transform: scale(1.12);
+
+            border-color: #38bdf8;
+
+            box-shadow:
+
+                0 0 20px
+                rgba(56, 189, 248, 0.3);
+
+        }
+
+
+        /* BUTTON */
+
+        .dashboard-btn {
+
+            display: block;
+
+            margin: 30px auto 0;
+
+            padding: 14px 35px;
+
+            border:
+
+                1px solid #38bdf8;
+
+            border-radius: 30px;
+
+            background:
+
+                rgba(56, 189, 248, 0.12);
+
+            color: white;
+
+            font-size: 15px;
+
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+
+        .dashboard-btn:hover {
+
+            background: #0284c7;
+
+            transform: scale(1.05);
+
+            box-shadow:
+
+                0 0 25px #38bdf8;
+
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width: 750px) {
+
+            .profile-card {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .detail-row {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .profile-title h1 {
+
+                font-size: 30px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="space">
+
+
+    <div class="stars"></div>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+            COSMOX 🚀
+        </div>
+
+
+        <button
+            class="logout"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </header>
+
+
+    <!-- PROFILE -->
+
+    <main class="profile-container">
+
+
+        <section class="profile-title">
+
+            <h1>
+                🧑‍🚀 Explorer Profile
+            </h1>
+
+            <p>
+                Welcome to your cosmic identity
+            </p>
+
+        </section>
+
+
+        <section class="profile-card">
+
+
+            <!-- AVATAR -->
+
+            <div class="avatar-section">
+
+                <div class="avatar">
+
+                    <img
+                        src="https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~orig.jpg"
+                        alt="Explorer"
+                    >
+
+                </div>
+
+
+                <div class="explorer-name">
+                    Space Explorer
+                </div>
+
+
+                <div class="explorer-id">
+                    Explorer ID: CX-2026
+                </div>
+
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="details">
+
+
+                <div class="detail-row">
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            RANK
+                        </div>
+
+                        <div class="detail-value">
+                            🚀 Space Explorer
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            LEVEL
+                        </div>
+
+                        <div class="detail-value">
+                            Level 08
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="detail-row">
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            PLANETS EXPLORED
+                        </div>
+
+                        <div class="detail-value">
+                            08
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            MISSIONS
+                        </div>
+
+                        <div class="detail-value">
+                            12
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- XP -->
+
+                <div class="xp-section">
+
+                    <div class="xp-top">
+
+                        <span>
+                            EXPERIENCE
+                        </span>
+
+                        <span>
+                            680 / 1000 XP
+                        </span>
+
+                    </div>
+
+
+                    <div class="xp-bar">
+
+                        <div class="xp-progress"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BADGES -->
+
+                <div class="badges">
+
+                    <h3>
+                        🏆 Achievements
+                    </h3>
+
+
+                    <div class="badge-list">
+
+                        <div
+                            class="badge"
+                            title="First Mission"
+                        >
+                            🚀
+                        </div>
+
+
+                        <div
+                            class="badge"
+                            title="Planet Explorer"
+                        >
+                            🪐
+                        </div>
+
+
+                        <div
+                            class="badge"
+                            title="Galaxy Explorer"
+                        >
+                            🌌
+                        </div>
+
+
+                        <div
+                            class="badge"
+                            title="Space Master"
+                        >
+                            🛰️
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DASHBOARD -->
+
+        <button
+            class="dashboard-btn"
+            onclick="openDashboard()"
+        >
+            🌌 ENTER SPACE DASHBOARD
+        </button>
+
+
+    </main>
+
+
+</div>
+
+
+<script>
+
+
+    /* DASHBOARD */
+
+    function openDashboard() {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+
+
+    /* LOGOUT */
+
+    function logout() {
+
+        const confirmLogout =
+            confirm(
+                "Are you sure you want to logout?"
+            );
+
+
+        if (confirmLogout) {
+
+            window.location.href =
+                "login.html";
+
+        }
+
+    }
+
+
+</script>
+
+<script src="script.js"></script>
+</body>
+
+</html>

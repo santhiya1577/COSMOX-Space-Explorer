@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>COSMOX - Space Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#020617;color:#e2e8f0;min-height:100vh;overflow-x:hidden}
+#stars{position:fixed;inset:0;z-index:-2;background:#020617}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:tw 2s infinite alternate}
+@keyframes tw{from{opacity:.15}to{opacity:1;transform:scale(1.6)}}
+header{height:72px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;background:#020617dd;border-bottom:1px solid #22d3ee40;position:sticky;top:0;z-index:10}
+.logo{font-size:25px;font-weight:bold;letter-spacing:3px;color:#22d3ee}
+.back{padding:10px 18px;border:1px solid #22d3ee;border-radius:22px;background:#082f4938;color:#67e8f9;font-weight:bold;cursor:pointer}
+.back:hover{background:#22d3ee;color:#020617}
+.hero{text-align:center;padding:55px 20px 35px}
+.tag{color:#67e8f9;letter-spacing:4px;font-size:13px;margin-bottom:12px}
+h1{font-size:clamp(45px,8vw,75px);color:#f8fafc}
+h1 span{color:#22d3ee}
+.hero p{color:#94a3b8;margin:15px auto;max-width:650px;line-height:1.7}
+.quiz{max-width:850px;margin:20px auto 70px;padding:0 20px}
+.progress-wrap{height:9px;background:#0f172a;border-radius:10px;overflow:hidden;margin-bottom:28px;border:1px solid #334155}
+#progress{height:100%;width:0;background:#22d3ee;transition:.4s;box-shadow:0 0 15px #22d3ee}
+.question-box{background:#0f172acc;border:1px solid #38bdf84d;border-radius:22px;padding:32px;box-shadow:0 15px 50px #0008}
+.q-number{color:#a78bfa;font-weight:bold;margin-bottom:12px}
+#question{font-size:24px;line-height:1.5;margin-bottom:25px}
+.options{display:grid;gap:14px}
+.option{width:100%;padding:16px 18px;text-align:left;background:#111c32;border:1px solid #334155;border-radius:13px;color:#e2e8f0;font-size:16px;cursor:pointer;transition:.25s}
+.option:hover{border-color:#22d3ee;transform:translateX(5px)}
+.option.selected{border-color:#22d3ee;background:#083344;box-shadow:0 0 18px #22d3ee20}
+.option.correct{border-color:#22c55e;background:#052e1b}
+.option.wrong{border-color:#ef4444;background:#3b0a0a}
+.feedback{margin-top:20px;padding:14px;border-radius:12px;background:#020617;color:#94a3b8;line-height:1.6;display:none}
+.controls{display:flex;justify-content:space-between;gap:15px;margin-top:22px}
+.btn{padding:12px 25px;border-radius:25px;border:1px solid #22d3ee;background:#082f49;color:#67e8f9;font-weight:bold;cursor:pointer}
+.btn:hover{background:#22d3ee;color:#020617}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.result{display:none;text-align:center;background:#0f172acc;border:1px solid #22d3ee55;border-radius:22px;padding:45px 25px}
+.score{font-size:70px;color:#22d3ee;font-weight:bold;margin:15px}
+.result p{color:#94a3b8;line-height:1.7}
+footer{text-align:center;padding:30px;color:#64748b;border-top:1px solid #38bdf826}
+@media(max-width:600px){#question{font-size:20px}.question-box{padding:22px}.controls{flex-direction:column}.btn{width:100%}}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+
+<header>
+<div class="logo">COSMOX 🚀</div>
+<button class="back" onclick="location.href='dashboard.html'">← Back to Dashboard</button>
+</header>
+
+<section class="hero">
+<div class="tag">COSMOX • KNOWLEDGE CHALLENGE</div>
+<h1>SPACE <span>QUIZ</span></h1>
+<p>Test your knowledge about planets, stars, spacecraft and the universe.</p>
+</section>
+
+<main class="quiz">
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<div id="quizBox" class="question-box">
+<div id="qNumber" class="q-number"></div>
+<div id="question"></div>
+<div id="options" class="options"></div>
+<div id="feedback" class="feedback"></div>
+<div class="controls">
+<button id="prevBtn" class="btn" onclick="previousQuestion()">← Previous</button>
+<button id="nextBtn" class="btn" onclick="nextQuestion()">Next →</button>
+</div>
+</div>
+
+<div id="result" class="result">
+<div class="tag">MISSION COMPLETE</div>
+<h2>Your Space Quiz Score</h2>
+<div id="score" class="score">0/10</div>
+<p id="message"></p>
+<br>
+<button class="btn" onclick="restartQuiz()">🔄 Play Again</button>
+</div>
+</main>
+
+<footer>COSMOX 🚀 | Space Explorer Quiz</footer>
+
+<script>
+const questions=[
+{q:"Which planet is known as the Red Planet?",o:["Venus","Mars","Jupiter","Mercury"],a:1},
+{q:"Which is the largest planet in our Solar System?",o:["Earth","Saturn","Jupiter","Neptune"],a:2},
+{q:"What is the name of Earth's natural satellite?",o:["Titan","Europa","Moon","Phobos"],a:2},
+{q:"Which planet is famous for its prominent ring system?",o:["Mars","Saturn","Venus","Mercury"],a:1},
+{q:"Which star is at the center of our Solar System?",o:["Sirius","Polaris","The Sun","Betelgeuse"],a:2},
+{q:"Which planet is closest to the Sun?",o:["Earth","Mercury","Venus","Mars"],a:1},
+{q:"Which planet is known for its Great Red Spot?",o:["Jupiter","Saturn","Neptune","Uranus"],a:0},
+{q:"What galaxy contains our Solar System?",o:["Andromeda Galaxy","Milky Way Galaxy","Whirlpool Galaxy","Sombrero Galaxy"],a:1},
+{q:"Which planet is famous for rotating on its side?",o:["Uranus","Mars","Earth","Jupiter"],a:0},
+{q:"What force keeps planets in orbit around the Sun?",o:["Magnetism","Friction","Gravity","Electricity"],a:2}
+];
+
+let current=0,answers=Array(questions.length).fill(null),finished=false;
+
+function loadQuestion(){
+ const item=questions[current];
+ document.getElementById("qNumber").textContent=`Question ${current+1} of ${questions.length}`;
+ document.getElementById("question").textContent=item.q;
+ const options=document.getElementById("options");
+ options.innerHTML="";
+ item.o.forEach((text,i)=>{
+   const b=document.createElement("button");
+   b.className="option";
+   b.textContent=text;
+   b.onclick=()=>selectAnswer(i);
+   if(answers[current]===i)b.classList.add("selected");
+   options.appendChild(b);
+ });
+ document.getElementById("feedback").style.display="none";
+ document.getElementById("prevBtn").disabled=current===0;
+ document.getElementById("nextBtn").textContent=current===questions.length-1?"Finish Quiz →":"Next →";
+ document.getElementById("progress").style.width=((current+1)/questions.length*100)+"%";
+}
+
+function selectAnswer(i){
+ if(finished)return;
+ answers[current]=i;
+ document.querySelectorAll(".option").forEach((b,n)=>b.classList.toggle("selected",n===i));
+}
+
+function nextQuestion(){
+ if(answers[current]===null){alert("Please select an answer!");return}
+ if(current<questions.length-1){current++;loadQuestion()}else{showResult()}
+}
+
+function previousQuestion(){
+ if(current>0){current--;loadQuestion()}
+}
+
+function showResult(){
+ finished=true;
+ let score=answers.reduce((sum,a,i)=>sum+(a===questions[i].a?1:0),0);
+ document.getElementById("quizBox").style.display="none";
+ document.getElementById("result").style.display="block";
+ document.getElementById("score").textContent=score+"/"+questions.length;
+ let msg=score>=9?"🚀 Outstanding! You are a Space Master!":score>=7?"🌟 Great job! Your space knowledge is strong!":score>=5?"🛰️ Good attempt! Keep exploring the universe!":"🌌 Keep learning and try the quiz again!";
+ document.getElementById("message").textContent=msg;
+}
+
+function restartQuiz(){
+ current=0;answers=Array(questions.length).fill(null);finished=false;
+ document.getElementById("quizBox").style.display="block";
+ document.getElementById("result").style.display="none";
+ loadQuestion();
+}
+
+const stars=document.getElementById("stars");
+for(let i=0;i<170;i++){
+ const s=document.createElement("span");
+ s.className="star";
+ s.style.left=Math.random()*100+"%";
+ s.style.top=Math.random()*100+"%";
+ s.style.animationDelay=Math.random()*3+"s";
+ s.style.animationDuration=1.5+Math.random()*3+"s";
+ stars.appendChild(s);
+}
+loadQuestion();
+</script>
+</body>
+</html>

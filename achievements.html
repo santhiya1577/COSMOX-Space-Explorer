@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>COSMOX - Achievements</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    background:#020617;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* ================= STARS ================= */
+
+.stars{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{
+        opacity:.2;
+        transform:scale(.5);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1.4);
+    }
+}
+
+/* ================= HEADER ================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:10;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 35px;
+
+    background:rgba(2,6,23,.85);
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid rgba(0,255,255,.25);
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    color:#00ffff;
+
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 25px #00ffff;
+}
+
+.back{
+    text-decoration:none;
+    color:#00ffff;
+
+    border:1px solid #00ffff;
+
+    padding:9px 18px;
+
+    border-radius:25px;
+
+    transition:.3s;
+}
+
+.back:hover{
+    background:#00ffff;
+    color:#020617;
+
+    box-shadow:
+        0 0 15px #00ffff,
+        0 0 30px #00ffff;
+}
+
+/* ================= MAIN ================= */
+
+.container{
+    width:90%;
+    max-width:1100px;
+    margin:auto;
+    padding:45px 0;
+}
+
+.hero{
+    text-align:center;
+}
+
+.hero h1{
+    font-size:45px;
+    color:#00ffff;
+
+    text-shadow:
+        0 0 15px #00ffff,
+        0 0 35px #00ffff;
+
+    animation:titleGlow 2s infinite alternate;
+}
+
+@keyframes titleGlow{
+    from{
+        text-shadow:0 0 10px #00ffff;
+    }
+
+    to{
+        text-shadow:
+            0 0 20px #00ffff,
+            0 0 45px #00ffff;
+    }
+}
+
+.hero p{
+    margin-top:10px;
+    color:#a9bdd2;
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-card{
+    margin:35px auto;
+
+    max-width:700px;
+
+    padding:22px;
+
+    text-align:center;
+
+    border:1px solid rgba(0,255,255,.35);
+
+    border-radius:20px;
+
+    background:rgba(15,23,42,.7);
+
+    box-shadow:
+        0 0 25px rgba(0,255,255,.1);
+}
+
+.progress-text{
+    color:#00ffff;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.progress-bar{
+    height:14px;
+
+    background:#111827;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    border:1px solid rgba(0,255,255,.2);
+}
+
+.progress-fill{
+    width:60%;
+    height:100%;
+
+    background:#00ffff;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 0 10px #00ffff,
+        0 0 25px #00ffff;
+
+    animation:progress 2s ease;
+}
+
+@keyframes progress{
+    from{
+        width:0;
+    }
+
+    to{
+        width:60%;
+    }
+}
+
+/* ================= ACHIEVEMENTS GRID ================= */
+
+.achievements{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:22px;
+
+    margin-top:30px;
+}
+
+/* ================= CARD ================= */
+
+.achievement{
+
+    position:relative;
+
+    padding:28px 20px;
+
+    text-align:center;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,23,42,.9),
+            rgba(7,21,47,.75)
+        );
+
+    border:1px solid rgba(0,255,255,.25);
+
+    overflow:hidden;
+
+    transition:.4s;
+
+    animation:cardIn .7s ease both;
+}
+
+.achievement:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    border-color:#00ffff;
+
+    box-shadow:
+        0 0 25px rgba(0,255,255,.35),
+        0 0 50px rgba(0,255,255,.1);
+}
+
+@keyframes cardIn{
+
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* CARD LIGHT */
+
+.achievement::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    background:#00ffff;
+
+    opacity:.05;
+
+    border-radius:50%;
+
+    top:-90px;
+    right:-90px;
+
+    animation:orb 4s infinite linear;
+}
+
+@keyframes orb{
+
+    0%{
+        transform:rotate(0deg);
+    }
+
+    100%{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* ================= BADGE ================= */
+
+.badge{
+
+    width:90px;
+    height:90px;
+
+    margin:0 auto 18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    font-size:45px;
+
+    border:2px solid #00ffff;
+
+    background:#07152f;
+
+    box-shadow:
+        0 0 15px #00ffff,
+        inset 0 0 15px rgba(0,255,255,.2);
+
+    animation:badgeFloat 2.5s infinite ease-in-out;
+}
+
+@keyframes badgeFloat{
+
+    0%,100%{
+        transform:translateY(0) rotate(0deg);
+    }
+
+    50%{
+        transform:translateY(-8px) rotate(5deg);
+    }
+
+}
+
+.achievement h2{
+    color:#00ffff;
+    margin-bottom:9px;
+}
+
+.achievement p{
+    color:#aebfd1;
+    font-size:14px;
+    line-height:1.5;
+}
+
+/* ================= STATUS ================= */
+
+.status{
+
+    display:inline-block;
+
+    margin-top:16px;
+
+    padding:6px 13px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+}
+
+.unlocked{
+
+    color:#020617;
+
+    background:#00ffff;
+
+    box-shadow:0 0 15px #00ffff;
+
+}
+
+.locked{
+
+    color:#94a3b8;
+
+    background:#1e293b;
+
+    border:1px solid #475569;
+
+}
+
+/* ================= UNLOCK ANIMATION ================= */
+
+.unlocked .badge{
+
+    animation:
+        badgeFloat 2.5s infinite ease-in-out,
+        unlockPulse 1.5s infinite alternate;
+}
+
+@keyframes unlockPulse{
+
+    from{
+        box-shadow:
+            0 0 10px #00ffff;
+    }
+
+    to{
+        box-shadow:
+            0 0 30px #00ffff,
+            0 0 55px #00ffff;
+    }
+
+}
+
+/* ================= BUTTON ================= */
+
+.button-area{
+    text-align:center;
+    margin-top:35px;
+}
+
+button{
+
+    border:none;
+
+    padding:12px 25px;
+
+    border-radius:25px;
+
+    background:#00ffff;
+
+    color:#020617;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+button:hover{
+
+    transform:scale(1.06);
+
+    box-shadow:
+        0 0 15px #00ffff,
+        0 0 30px #00ffff;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px){
+
+    .achievements{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:15px 18px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .hero h1{
+        font-size:32px;
+    }
+
+    .achievements{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- STARS -->
+
+<div class="stars" id="stars"></div>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        COSMOX 🚀
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <h1>🏆 ACHIEVEMENTS</h1>
+
+        <p>
+            Complete space challenges and unlock special achievements!
+        </p>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-card">
+
+        <div class="progress-text">
+            6 / 10 Achievements Unlocked
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress-fill"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACHIEVEMENTS -->
+
+    <div class="achievements">
+
+
+        <!-- 1 -->
+
+        <div class="achievement unlocked"
+             style="animation-delay:.1s">
+
+            <div class="badge">
+                🚀
+            </div>
+
+            <h2>First Launch</h2>
+
+            <p>
+                Complete your first space activity.
+            </p>
+
+            <span class="status unlocked">
+                ✓ UNLOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 2 -->
+
+        <div class="achievement unlocked"
+             style="animation-delay:.2s">
+
+            <div class="badge">
+                🌍
+            </div>
+
+            <h2>Earth Explorer</h2>
+
+            <p>
+                Explore the planets section.
+            </p>
+
+            <span class="status unlocked">
+                ✓ UNLOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 3 -->
+
+        <div class="achievement unlocked"
+             style="animation-delay:.3s">
+
+            <div class="badge">
+                🧠
+            </div>
+
+            <h2>Space Brain</h2>
+
+            <p>
+                Complete a space quiz.
+            </p>
+
+            <span class="status unlocked">
+                ✓ UNLOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 4 -->
+
+        <div class="achievement unlocked"
+             style="animation-delay:.4s">
+
+            <div class="badge">
+                🪐
+            </div>
+
+            <h2>Planet Hunter</h2>
+
+            <p>
+                Discover all major planets.
+            </p>
+
+            <span class="status unlocked">
+                ✓ UNLOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 5 -->
+
+        <div class="achievement unlocked"
+             style="animation-delay:.5s">
+
+            <div class="badge">
+                ⭐
+            </div>
+
+            <h2>Star Collector</h2>
+
+            <p>
+                Earn 500 XP from space activities.
+            </p>
+
+            <span class="status unlocked">
+                ✓ UNLOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 6 -->
+
+        <div class="achievement unlocked"
+             style="animation-delay:.6s">
+
+            <div class="badge">
+                🛰️
+            </div>
+
+            <h2>Mission Ready</h2>
+
+            <p>
+                Explore the space missions page.
+            </p>
+
+            <span class="status unlocked">
+                ✓ UNLOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 7 -->
+
+        <div class="achievement"
+             style="animation-delay:.7s">
+
+            <div class="badge">
+                👨‍🚀
+            </div>
+
+            <h2>Astronaut</h2>
+
+            <p>
+                Explore the Astronaut Zone.
+            </p>
+
+            <span class="status locked">
+                🔒 LOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 8 -->
+
+        <div class="achievement"
+             style="animation-delay:.8s">
+
+            <div class="badge">
+                🏆
+            </div>
+
+            <h2>Memory Master</h2>
+
+            <p>
+                Complete all 3 levels of Planet Memory.
+            </p>
+
+            <span class="status locked">
+                🔒 LOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 9 -->
+
+        <div class="achievement"
+             style="animation-delay:.9s">
+
+            <div class="badge">
+                🌌
+            </div>
+
+            <h2>Galaxy Explorer</h2>
+
+            <p>
+                Explore the Galaxy Explorer page.
+            </p>
+
+            <span class="status locked">
+                🔒 LOCKED
+            </span>
+
+        </div>
+
+
+        <!-- 10 -->
+
+        <div class="achievement"
+             style="animation-delay:1s">
+
+            <div class="badge">
+                👑
+            </div>
+
+            <h2>Space Master</h2>
+
+            <p>
+                Unlock all achievements.
+            </p>
+
+            <span class="status locked">
+                🔒 LOCKED
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- BUTTON -->
+
+    <div class="button-area">
+
+        <button onclick="location.href='dashboard.html'">
+            🏠 Back to Dashboard
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   STAR ANIMATION
+========================= */
+
+const stars =
+document.getElementById("stars");
+
+for(let i=0;i<140;i++){
+
+    const star =
+    document.createElement("div");
+
+    star.className="star";
+
+    star.style.left =
+        Math.random()*100+"%";
+
+    star.style.top =
+        Math.random()*100+"%";
+
+    star.style.animationDelay =
+        Math.random()*2+"s";
+
+    stars.appendChild(star);
+}
+
+</script>
+
+</body>
+</html>

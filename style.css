@@ -1,0 +1,284 @@
+/* ==============================
+   COSMOX COMMON STYLE
+   ============================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    background: #020617;
+}
+
+
+/* MAIN SPACE BACKGROUND */
+
+.space {
+    min-height: 100vh;
+    padding: 25px;
+
+    background:
+        linear-gradient(
+            rgba(2, 6, 23, 0.60),
+            rgba(2, 6, 23, 0.96)
+        ),
+        url("https://images-assets.nasa.gov/image/PIA12348/PIA12348~orig.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+
+/* HEADER */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px 20px;
+
+    border: 1px solid
+        rgba(56, 189, 248, 0.4);
+
+    border-radius: 18px;
+
+    background:
+        rgba(15, 23, 42, 0.78);
+
+    backdrop-filter: blur(15px);
+}
+
+
+/* LOGO */
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    letter-spacing: 5px;
+
+    color: #38bdf8;
+
+    text-shadow:
+        0 0 10px #38bdf8,
+        0 0 25px #2563eb;
+}
+
+
+/* BUTTON */
+
+.back-btn {
+    padding: 9px 20px;
+
+    border: 1px solid #38bdf8;
+    border-radius: 20px;
+
+    background:
+        rgba(56, 189, 248, 0.1);
+
+    color: white;
+
+    cursor: pointer;
+}
+
+
+.back-btn:hover {
+    background: #0284c7;
+
+    box-shadow:
+        0 0 20px #38bdf8;
+}
+
+
+/* NAVIGATION */
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+
+    margin: 25px auto;
+
+    max-width: 1200px;
+}
+
+
+.nav a {
+    padding: 9px 15px;
+
+    border: 1px solid #334155;
+    border-radius: 20px;
+
+    background:
+        rgba(15, 23, 42, 0.75);
+
+    color: #cbd5e1;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+
+.nav a:hover {
+    color: white;
+
+    border-color: #38bdf8;
+
+    background:
+        rgba(56, 189, 248, 0.12);
+
+    box-shadow:
+        0 0 15px
+        rgba(56, 189, 248, 0.2);
+}
+
+
+/* PAGE TITLE */
+
+.title {
+    text-align: center;
+
+    margin: 35px 0;
+}
+
+
+.title h1 {
+    font-size: 42px;
+
+    color: #38bdf8;
+
+    text-shadow:
+        0 0 10px #38bdf8,
+        0 0 30px #2563eb;
+}
+
+
+.title p {
+    margin-top: 10px;
+
+    color: #94a3b8;
+}
+
+
+/* COMMON CARD */
+
+.card {
+    padding: 25px;
+
+    border: 1px solid #334155;
+
+    border-radius: 22px;
+
+    background:
+        rgba(15, 23, 42, 0.82);
+
+    backdrop-filter: blur(12px);
+
+    transition: 0.3s;
+}
+
+
+.card:hover {
+    border-color: #38bdf8;
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 0 25px
+        rgba(56, 189, 248, 0.15);
+}
+
+
+/* COMMON BUTTON */
+
+.cosmox-btn {
+    padding: 11px 25px;
+
+    border: 1px solid #38bdf8;
+
+    border-radius: 25px;
+
+    background: #0284c7;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+
+.cosmox-btn:hover {
+    background: #0369a1;
+
+    box-shadow:
+        0 0 20px #38bdf8;
+}
+
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+
+    margin-top: 35px;
+
+    padding: 25px;
+
+    border-top: 1px solid #1e293b;
+
+    color: #64748b;
+}
+
+
+.footer strong {
+    color: #38bdf8;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .space {
+        padding: 15px;
+    }
+
+
+    .header {
+        padding: 13px;
+    }
+
+
+    .logo {
+        font-size: 21px;
+    }
+
+
+    .title h1 {
+        font-size: 30px;
+    }
+
+
+    .nav {
+        gap: 7px;
+    }
+
+
+    .nav a {
+        font-size: 12px;
+        padding: 7px 11px;
+    }
+
+}

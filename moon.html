@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>COSMOX - Moon Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            background: #020617;
+        }
+
+        .space {
+
+            min-height: 100vh;
+            padding: 25px;
+
+            background:
+                linear-gradient(
+                    rgba(2,6,23,0.5),
+                    rgba(2,6,23,0.95)
+                ),
+                url("https://images-assets.nasa.gov/image/PIA12348/PIA12348~orig.jpg");
+
+            background-size: cover;
+            background-position: center;
+
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 15px 20px;
+
+            border: 1px solid
+                rgba(56,189,248,0.4);
+
+            border-radius: 18px;
+
+            background:
+                rgba(15,23,42,0.75);
+
+            backdrop-filter: blur(15px);
+
+        }
+
+
+        .logo {
+
+            font-size: 27px;
+            font-weight: bold;
+
+            letter-spacing: 5px;
+
+            color: #38bdf8;
+
+            text-shadow:
+                0 0 10px #38bdf8,
+                0 0 25px #2563eb;
+
+        }
+
+
+        .back-btn {
+
+            padding: 9px 20px;
+
+            border: 1px solid #38bdf8;
+
+            border-radius: 20px;
+
+            background:
+                rgba(56,189,248,0.1);
+
+            color: white;
+
+            cursor: pointer;
+
+        }
+
+
+        .back-btn:hover {
+
+            background: #0284c7;
+
+            box-shadow:
+                0 0 20px #38bdf8;
+
+        }
+
+
+        /* TITLE */
+
+        .title {
+
+            text-align: center;
+
+            margin: 35px 0;
+
+        }
+
+
+        .title h1 {
+
+            font-size: 42px;
+
+            color: #38bdf8;
+
+            text-shadow:
+                0 0 10px #38bdf8,
+                0 0 30px #2563eb;
+
+        }
+
+
+        .title p {
+
+            margin-top: 8px;
+
+            color: #94a3b8;
+
+        }
+
+
+        /* MOON */
+
+        .moon-area {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            margin: 20px auto 35px;
+
+        }
+
+
+        .moon {
+
+            width: 260px;
+            height: 260px;
+
+            border-radius: 50%;
+
+            background:
+
+                radial-gradient(
+                    circle at 35% 30%,
+                    #f8fafc,
+                    #cbd5e1 45%,
+                    #64748b 80%,
+                    #334155
+                );
+
+            box-shadow:
+
+                0 0 30px #cbd5e1,
+
+                0 0 70px
+                rgba(226,232,240,0.3);
+
+            position: relative;
+
+            animation:
+                moonFloat 4s ease-in-out infinite;
+
+        }
+
+
+        /* MOON CRATERS */
+
+        .crater {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            background:
+                rgba(71,85,105,0.45);
+
+            box-shadow:
+                inset 4px 4px 8px
+                rgba(15,23,42,0.35);
+
+        }
+
+
+        .c1 {
+            width: 45px;
+            height: 45px;
+            top: 50px;
+            left: 55px;
+        }
+
+
+        .c2 {
+            width: 25px;
+            height: 25px;
+            top: 120px;
+            left: 150px;
+        }
+
+
+        .c3 {
+            width: 35px;
+            height: 35px;
+            top: 170px;
+            left: 75px;
+        }
+
+
+        .c4 {
+            width: 20px;
+            height: 20px;
+            top: 70px;
+            left: 165px;
+        }
+
+
+        .c5 {
+            width: 30px;
+            height: 30px;
+            top: 155px;
+            left: 180px;
+        }
+
+
+        @keyframes moonFloat {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* CONTENT */
+
+        .content {
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+
+            gap: 20px;
+
+        }
+
+
+        .card {
+
+            padding: 25px;
+
+            border: 1px solid #334155;
+
+            border-radius: 20px;
+
+            background:
+                rgba(15,23,42,0.75);
+
+            backdrop-filter: blur(12px);
+
+            transition: 0.3s;
+
+        }
+
+
+        .card:hover {
+
+            transform: translateY(-7px);
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 25px
+                rgba(56,189,248,0.18);
+
+        }
+
+
+        .card h2 {
+
+            color: #38bdf8;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .card p {
+
+            color: #cbd5e1;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* PHASES */
+
+        .phases {
+
+            max-width: 1100px;
+
+            margin: 35px auto;
+
+        }
+
+
+        .phases h2 {
+
+            text-align: center;
+
+            color: #38bdf8;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .phase-list {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(120px, 1fr));
+
+            gap: 15px;
+
+        }
+
+
+        .phase {
+
+            padding: 18px;
+
+            text-align: center;
+
+            border: 1px solid #334155;
+
+            border-radius: 15px;
+
+            background:
+                rgba(15,23,42,0.7);
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+
+        .phase:hover {
+
+            transform: scale(1.05);
+
+            border-color: #38bdf8;
+
+        }
+
+
+        .phase-icon {
+
+            font-size: 42px;
+
+        }
+
+
+        .phase p {
+
+            margin-top: 8px;
+
+            color: #cbd5e1;
+
+        }
+
+
+        /* BUTTON */
+
+        .mission-btn {
+
+            display: block;
+
+            margin: 30px auto;
+
+            padding: 14px 30px;
+
+            border: 1px solid #38bdf8;
+
+            border-radius: 30px;
+
+            background:
+                rgba(56,189,248,0.12);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+        }
+
+
+        .mission-btn:hover {
+
+            background: #0284c7;
+
+            box-shadow:
+                0 0 25px #38bdf8;
+
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width:600px) {
+
+            .title h1 {
+                font-size: 30px;
+            }
+
+            .moon {
+                width: 200px;
+                height: 200px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="space">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+            COSMOX 🚀
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goBack()"
+        >
+            ← Dashboard
+        </button>
+
+    </header>
+
+
+    <!-- TITLE -->
+
+    <section class="title">
+
+        <h1>
+            🌙 Moon Explorer
+        </h1>
+
+        <p>
+            Discover Earth's natural satellite
+        </p>
+
+    </section>
+
+
+    <!-- MOON -->
+
+    <section class="moon-area">
+
+        <div class="moon">
+
+            <div class="crater c1"></div>
+
+            <div class="crater c2"></div>
+
+            <div class="crater c3"></div>
+
+            <div class="crater c4"></div>
+
+            <div class="crater c5"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- INFORMATION -->
+
+    <section class="content">
+
+
+        <div class="card">
+
+            <h2>
+                🌙 About the Moon
+            </h2>
+
+            <p>
+                The Moon is Earth's natural satellite.
+                It is the fifth-largest natural satellite
+                in the Solar System.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                🌊 Tides
+            </h2>
+
+            <p>
+                The Moon's gravity plays an important
+                role in Earth's ocean tides.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                🌍 Earth & Moon
+            </h2>
+
+            <p>
+                The Moon takes about 27 days to orbit
+                Earth relative to the distant stars.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                🚀 Exploration
+            </h2>
+
+            <p>
+                Humans have explored the Moon through
+                several robotic and crewed missions.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PHASES -->
+
+    <section class="phases">
+
+        <h2>
+            🌗 Moon Phases
+        </h2>
+
+
+        <div class="phase-list">
+
+
+            <div
+                class="phase"
+                onclick="showPhase('New Moon')"
+            >
+
+                <div class="phase-icon">
+                    🌑
+                </div>
+
+                <p>
+                    New Moon
+                </p>
+
+            </div>
+
+
+            <div
+                class="phase"
+                onclick="showPhase('Waxing Crescent')"
+            >
+
+                <div class="phase-icon">
+                    🌒
+                </div>
+
+                <p>
+                    Waxing Crescent
+                </p>
+
+            </div>
+
+
+            <div
+                class="phase"
+                onclick="showPhase('First Quarter')"
+            >
+
+                <div class="phase-icon">
+                    🌓
+                </div>
+
+                <p>
+                    First Quarter
+                </p>
+
+            </div>
+
+
+            <div
+                class="phase"
+                onclick="showPhase('Waxing Gibbous')"
+            >
+
+                <div class="phase-icon">
+                    🌔
+                </div>
+
+                <p>
+                    Waxing Gibbous
+                </p>
+
+            </div>
+
+
+            <div
+                class="phase"
+                onclick="showPhase('Full Moon')"
+            >
+
+                <div class="phase-icon">
+                    🌕
+                </div>
+
+                <p>
+                    Full Moon
+                </p>
+
+            </div>
+
+
+            <div
+                class="phase"
+                onclick="showPhase('Waning Gibbous')"
+            >
+
+                <div class="phase-icon">
+                    🌖
+                </div>
+
+                <p>
+                    Waning Gibbous
+                </p>
+
+            </div>
+
+
+            <div
+                class="phase"
+                onclick="showPhase('Last Quarter')"
+            >
+
+                <div class="phase-icon">
+                    🌗
+                </div>
+
+                <p>
+                    Last Quarter
+                </p>
+
+            </div>
+
+
+            <div
+                class="phase"
+                onclick="showPhase('Waning Crescent')"
+            >
+
+                <div class="phase-icon">
+                    🌘
+                </div>
+
+                <p>
+                    Waning Crescent
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MISSION BUTTON -->
+
+    <button
+        class="mission-btn"
+        onclick="startMission()"
+    >
+        🚀 Start Moon Mission
+    </button>
+
+
+</div>
+
+
+<script>
+
+
+    /* BACK */
+
+    function goBack() {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+
+
+    /* PHASE */
+
+    function showPhase(phase) {
+
+        alert(
+            "🌙 Moon Phase\n\n" +
+            phase +
+            "\n\nKeep exploring COSMOX!"
+        );
+
+    }
+
+
+    /* MISSION */
+
+    function startMission() {
+
+        alert(
+            "🚀 Moon Mission Started!\n\n" +
+            "Mission: Explore the Lunar Surface\n" +
+            "Reward: +100 XP"
+        );
+
+    }
+
+</script>
+
+<script src="script.js"></script>
+</body>
+
+</html>
