@@ -10,6 +10,8 @@
 
     <title>COSMOX - Explorer Profile</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
 
     <style>
 
@@ -894,6 +896,26 @@
 <script>
 
 
+    /* LOAD SIGNED-IN EXPLORER PROFILE */
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            const { data: { user }, error } = await supabaseClient.auth.getUser();
+            if (error || !user) {
+                window.location.href = "login.html";
+                return;
+            }
+            await ensureExplorerProfile(user);
+            const { data: profile, error: profileError } = await supabaseClient
+                .from("profiles").select("username").eq("user_id", user.id).single();
+            if (profileError) throw profileError;
+            document.querySelector(".explorer-name").textContent = profile.username || "Space Explorer";
+            document.querySelector(".explorer-id").textContent = "Explorer ID: CX-" + user.id.slice(0, 8).toUpperCase();
+        } catch (error) {
+            console.error("Profile loading error:", error.message);
+        }
+    });
+
     /* DASHBOARD */
 
     function openDashboard() {
@@ -906,21 +928,12 @@
 
     /* LOGOUT */
 
-    function logout() {
-
-        const confirmLogout =
-            confirm(
-                "Are you sure you want to logout?"
-            );
-
-
+    async function logout() {
+        const confirmLogout = confirm("Are you sure you want to logout?");
         if (confirmLogout) {
-
-            window.location.href =
-                "login.html";
-
+            await supabaseClient.auth.signOut();
+            window.location.href = "login.html";
         }
-
     }
 
 

@@ -42,6 +42,8 @@ h1 span{color:#22d3ee}
 footer{text-align:center;padding:30px;color:#64748b;border-top:1px solid #38bdf826}
 @media(max-width:600px){#question{font-size:20px}.question-box{padding:22px}.controls{flex-direction:column}.btn{width:100%}}
 </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
 </head>
 <body>
 <div id="stars"></div>
@@ -134,7 +136,7 @@ function previousQuestion(){
  if(current>0){current--;loadQuestion()}
 }
 
-function showResult(){
+async function showResult(){
  finished=true;
  let score=answers.reduce((sum,a,i)=>sum+(a===questions[i].a?1:0),0);
  document.getElementById("quizBox").style.display="none";
@@ -142,6 +144,23 @@ function showResult(){
  document.getElementById("score").textContent=score+"/"+questions.length;
  let msg=score>=9?"🚀 Outstanding! You are a Space Master!":score>=7?"🌟 Great job! Your space knowledge is strong!":score>=5?"🛰️ Good attempt! Keep exploring the universe!":"🌌 Keep learning and try the quiz again!";
  document.getElementById("message").textContent=msg;
+ try {
+   const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+   if (userError || !user) {
+     document.getElementById("message").textContent += " Please log in to save your score.";
+     return;
+   }
+   const { error: saveError } = await supabaseClient.from("quiz_scores").insert({
+     user_id: user.id,
+     score: score,
+     total_questions: questions.length
+   });
+   if (saveError) throw saveError;
+   document.getElementById("message").textContent += " Your score has been saved!";
+ } catch (error) {
+   console.error("Quiz score save error:", error.message);
+   document.getElementById("message").textContent += " Score could not be saved. Please try again later.";
+ }
 }
 
 function restartQuiz(){
@@ -161,7 +180,20 @@ for(let i=0;i<170;i++){
  s.style.animationDuration=1.5+Math.random()*3+"s";
  stars.appendChild(s);
 }
-loadQuestion();
+(async function checkExplorerLogin(){
+ try {
+   const { data: { user } } = await supabaseClient.auth.getUser();
+   if (!user) {
+     alert("Please log in to play and save your quiz score.");
+     window.location.href = "login.html";
+     return;
+   }
+   loadQuestion();
+ } catch (error) {
+   console.error("Login check failed:", error.message);
+   window.location.href = "login.html";
+ }
+})();
 </script>
 </body>
 </html>
